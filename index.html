@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HOT SWEET COMICS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background: linear-gradient(180deg, #000 0%, #1a001f 100%);
+    color:#fff;
+}
+
+header{
+    text-align:center;
+    padding:40px 20px 10px 20px;
+}
+
+h1{
+    font-size:48px;
+    color:#fff;
+    text-shadow:
+        0 0 8px #800000,
+        0 0 16px #800000,
+        0 0 24px #ff0040;
+    margin:0;
+}
+
+h2{
+    margin-top:10px;
+    color:#ccc;
+    font-weight:normal;
+    letter-spacing:4px;
+}
+
+.container{
+    max-width:1000px;
+    margin:auto;
+    padding:20px;
+}
+
+.card{
+    background:#0d0d0d;
+    margin-bottom:40px;
+    padding:20px;
+    border-radius:10px;
+}
+
+.title{
+    font-size:24px;
+    margin-bottom:10px;
+    color:#ff66aa;
+}
+
+.desc{
+    font-size:16px;
+    margin-bottom:15px;
+    color:#bbb;
+}
+
+.card img{
+    width:100%;
+    margin-bottom:10px;
+    border-radius:6px;
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>HOT SWEET COMICS</h1>
+    <h2>MAGMA DOUX</h2>
+</header>
+
+<div class="container" id="content"></div>
+
+<script>
+fetch('comics.json')
+.then(res => res.json())
+.then(comics => {
+    const container = document.getElementById('content');
+
+    comics.forEach(comic => {
+        const card = document.createElement('div');
+        card.className = 'card';
+
+        let images = '';
+        comic.pages.forEach(img => {
+            images += `<img src="${img}">`;
+        });
+
+        card.innerHTML = `
+            <div class="title">${comic.title}</div>
+            <div class="desc">${comic.desc}</div>
+            ${images}
+        `;
+
+        container.appendChild(card);
+    });
+});
+</script>
+
+</body>
+</html>
