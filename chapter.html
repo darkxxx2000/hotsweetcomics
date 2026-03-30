@@ -1,31 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Chapter</title>
+<title>Capítulos</title>
 <style>
-body{background:#000;color:#fff;font-family:Arial;padding:40px;}
-img{width:100%;margin:15px 0;border-radius:8px;}
+body { background:#000; color:#fff; font-family:Arial; padding:40px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:30px; }
+.card { padding:15px; border:4px solid #00ffaa; border-radius:12px; text-align:center; cursor:pointer; }
+.card img { width:100%; border-radius:8px; }
+.card h2 { margin:10px 0; }
+.back-btn { margin-bottom:20px; padding:10px 15px; background:#333; border:none; color:#fff; cursor:pointer; border-radius:6px; }
 </style>
 </head>
 <body>
 
-<div id="chapter"></div>
+<button class="back-btn" onclick="history.back()">← Volver</button>
+<h1 id="serie-title"></h1>
+<div class="grid" id="cap-list"></div>
 
 <script>
-const id=new URLSearchParams(location.search).get('id');
+const params = new URLSearchParams(location.search);
+const serie = params.get('serie');
+document.getElementById('serie-title').innerText = serie;
 
-fetch('data.json').then(r=>r.json()).then(data=>{
-  const ch=data.chapters[id];
+// Capítulos de ejemplo
+const capitulos = {
+  "franquicia1": [
+    { id: "cap1", title: "Capítulo 1" },
+    { id: "cap2", title: "Capítulo 2" }
+  ],
+  "franquicia2": [
+    { id: "cap1", title: "Capítulo 1" }
+  ]
+};
 
-  document.getElementById('chapter').innerHTML=`
-    <img src="https://ah-img.luscious.net/KOKOMIEL/370689/pagina-1_01E5WK2S3KNPQVT239DB9J006B.1680x0.jpg">
-
-    <h1>${ch.title}</h1>
-    <p>${ch.desc}</p>
-
-    ${ch.pages.map(p=>`<img src="${p}">`).join('')}
-  `;
+const container = document.getElementById('cap-list');
+capitulos[serie].forEach(c=>{
+  const a = document.createElement('a');
+  a.href = `comic.html?serie=${serie}&cap=${c.id}`;
+  a.style.textDecoration = "none";
+  a.style.color = "white";
+  a.innerHTML = `<div class="card"><img src="https://ah-img.luscious.net/KOKOMIEL/370689/pagina-1_01E5WK2S3KNPQVT239DB9J006B.1680x0.jpg"><h2>${c.title}</h2></div>`;
+  container.appendChild(a);
 });
 </script>
 
