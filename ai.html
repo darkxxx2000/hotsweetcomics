@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Tools</title>
+<link rel="stylesheet" href="estilos.css">
+<style>
+body { font-family:'Poppins',Arial,sans-serif; background:linear-gradient(135deg,#1f1c2c,#302b63,#24243e); color:#fff; padding:20px; }
+header { text-align:center; margin-bottom:40px; }
+header h1 { font-size:3rem; margin-bottom:10px; text-shadow:2px2px10px rgba(0,0,0,0.7); }
+header p { font-size:1.2rem; color: rgba(255,255,255,0.8); }
+nav { text-align:center; margin-top:20px; }
+.main-btn { padding:10px 20px; margin:5px; border-radius:12px; border:none; background:#ff0080; font-weight:600; color:#fff; cursor:pointer; transition:all 0.3s ease; text-decoration:none; display:inline-block; }
+.main-btn:hover { background:#e60073; transform:translateY(-3px) scale(1.05); }
+#ai-tools { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:30px; max-width:1200px; margin:auto; }
+.serie-card { background: rgba(255,255,255,0.05); border-radius:15px; overflow:hidden; cursor:pointer; transition:all 0.3s ease; border:3px solid #ff00c8; text-align:center; }
+.serie-card img { width:100%; height:auto; object-fit:cover; }
+.serie-card p { margin:10px 0; font-size:1.2rem; font-weight:600; color:#fff; }
+.serie-card:hover { transform: translateY(-5px) scale(1.05); box-shadow:0 12px 25px rgba(0,0,0,0.5); }
+footer { text-align:center; padding:15px 0; color: rgba(255,255,255,0.7); margin-top:40px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>AI Tools</h1>
+  <p>Explora nuestras herramientas de Inteligencia Artificial</p>
+
+  <nav>
+    <a href="index.html" class="main-btn">Home</a>
+    <a href="doujinshi.html" class="main-btn">Doujinshi</a>
+    <a href="gallery.html" class="main-btn">Gallery</a>
+    <a href="shortcomics.html" class="main-btn">Short Comics</a>
+    <a href="post.html" class="main-btn">Post</a>
+    <a href="ai.html" class="main-btn">AI</a>
+    <a href="contact.html" class="main-btn">Contact</a>
+  </nav>
+</header>
+
+<main>
+  <section id="ai-tools"></section>
+</main>
+
+<footer>
+  &copy; 2026 Doujinshi Hub. Todos los derechos reservados.
+</footer>
+
+<script>
+const aiContainer = document.getElementById('ai-tools');
+const tools = [
+  {nombre:"AI Tool 1", img:"https://ah-img.luscious.net/KOKOMIEL/ai1.jpg"},
+  {nombre:"AI Tool 2", img:"https://ah-img.luscious.net/KOKOMIEL/ai2.jpg"},
+  {nombre:"AI Tool 3", img:"https://ah-img.luscious.net/KOKOMIEL/ai3.jpg"}
+];
+tools.forEach((t, idx) => {
+  const div=document.createElement('div');
+  div.className='serie-card';
+  div.style.border = idx % 2 === 0?"3px solid #ff00c8":"3px solid #00ffff";
+  div.innerHTML=`<img src="${t.img}" alt="${t.nombre}"><p>${t.nombre}</p>`;
+  aiContainer.appendChild(div);
+});
+</script>
+
+</body>
+</html>
