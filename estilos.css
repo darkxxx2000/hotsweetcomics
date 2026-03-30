@@ -1,11 +1,100 @@
-body { font-family: Arial, sans-serif; background:#111; color:#fff; padding:20px; }
-header h1 { text-align:center; }
-hr { margin:20px 0; border:1px solid #fff; }
-.main-btn { padding:10px 20px; margin:10px; font-size:16px; cursor:pointer; }
+body {
+  margin:0;
+  font-family: 'Poppins', Arial, sans-serif;
+  background: linear-gradient(135deg,#1f1c2c,#302b63,#24243e);
+  color:#fff;
+}
 
-#series, #capitulos, #contenido { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; }
+/* Barra fija */
+header {
+  text-align: center;
+  padding: 10px 0;
+}
+nav {
+  position: sticky;
+  top:0;
+  z-index:1000;
+  background: rgba(30,30,50,0.95);
+  padding:10px 0;
+  text-align:center;
+  box-shadow:0 2px 10px rgba(0,0,0,0.5);
+  transition: background 0.3s, box-shadow 0.3s;
+}
+nav a {
+  padding:10px 20px;
+  margin:0 5px;
+  border-radius:10px;
+  text-decoration:none;
+  color:#fff;
+  background:#ff0080;
+  transition:0.3s;
+}
+nav a:hover {
+  background:#e60073;
+  transform: translateY(-2px) scale(1.05);
+}
 
-.serie-card, .capitulo-card { width:200px; text-align:center; cursor:pointer; }
-.serie-card img, .capitulo-card img, .chapter-img { width:100%; border-radius:10px; margin-bottom:5px; }
-.serie-card p, .capitulo-card p { margin-top:5px; text-align:center; }
-.chapter-img { margin-bottom:10px; }
+/* Grids para series, capítulos y miniaturas */
+.grid {
+  display:grid;
+  grid-template-columns: repeat(auto-fill,minmax(220px,1fr));
+  gap:30px;
+  max-width:1200px;
+  margin:20px auto;
+}
+.card {
+  background: rgba(255,255,255,0.05);
+  border-radius:15px;
+  overflow:hidden;
+  cursor:pointer;
+  transition:all 0.3s ease;
+  border:3px solid #00ffff;
+  text-align:center;
+}
+.card img {
+  width:100%;
+  height:auto;
+  object-fit:cover;
+}
+.card p {
+  margin:10px 0;
+  font-size:1.2rem;
+  font-weight:600;
+  color:#fff;
+}
+.card:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow:0 12px 25px rgba(0,0,0,0.5);
+}
+
+/* Visor de imágenes de capítulo */
+#viewer {
+  display:none;
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: rgba(0,0,0,0.95);
+  justify-content:center;
+  align-items:center;
+  z-index:2000;
+}
+#viewer img {
+  max-width:90%;
+  max-height:90%;
+  cursor: grab;
+}
+#close {
+  position:absolute;
+  top:20px; right:20px;
+  font-size:2rem;
+  cursor:pointer;
+  color:#fff;
+}
+
+/* Footer */
+footer {
+  text-align:center;
+  padding:15px 0;
+  color: rgba(255,255,255,0.7);
+  margin-top:40px;
+}
