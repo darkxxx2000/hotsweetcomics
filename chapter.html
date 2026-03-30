@@ -1,129 +1,54 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Capítulo</title>
+<title>Chapters</title>
 <link rel="stylesheet" href="estilos.css">
-<style>
-body {
-  font-family: 'Poppins', Arial, sans-serif;
-  background: linear-gradient(135deg, #1f1c2c, #302b63, #24243e);
-  color:#fff;
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  padding:20px;
-}
-
-header {
-  text-align:center;
-  margin-bottom:30px;
-}
-
-header h1 {
-  font-size:3rem;
-  font-weight:800;
-  margin-bottom:10px;
-  text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
-}
-
-header p {
-  font-size:1.2rem;
-  color: rgba(255,255,255,0.8);
-}
-
-#contenido {
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:20px;
-  width:100%;
-  max-width:1200px;
-}
-
-.chapter-img {
-  width:300px;
-  border-radius:12px;
-  border: 2px solid #ff00c8;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.chapter-img:hover {
-  transform: translateY(-5px) scale(1.05);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-}
-
-.main-btn {
-  padding:10px 20px;
-  margin:20px;
-  font-size:16px;
-  cursor:pointer;
-  border-radius:12px;
-  border:none;
-  background: #ff0080;
-  font-weight:600;
-  color:#fff;
-  transition: all 0.3s ease;
-}
-
-.main-btn:hover {
-  background:#e60073;
-  transform: translateY(-3px) scale(1.05);
-}
-
-footer {
-  text-align:center;
-  padding:15px 0;
-  font-size:0.9rem;
-  color: rgba(255,255,255,0.7);
-  margin-top:40px;
-}
-</style>
 </head>
 <body>
 
 <header>
-  <h1>Capítulo</h1>
-  <p>Disfruta de todas las imágenes de este capítulo.</p>
+  <h1>Chapters</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="doujinshi.html">Doujinshi</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="shortcomics.html">Short Comics</a>
+    <a href="post.html">Post</a>
+    <a href="ai.html">AI</a>
+    <a href="contact.html">Contact</a>
+  </nav>
 </header>
 
 <main>
-  <section id="contenido"></section>
-  <a id="back-comic" href="#"><button class="main-btn">Volver a Comic</button></a>
-  <a href="doujinshi.html"><button class="main-btn">Volver a Doujinshi</button></a>
+  <section id="chapters" class="grid"></section>
 </main>
 
 <footer>
-  &copy; 2026 Doujinshi Hub. Todos los derechos reservados.
+  &copy; 2026 Doujinshi Hub. All rights reserved.
 </footer>
 
 <script>
-const contenido = document.getElementById('contenido');
-const params = new URLSearchParams(window.location.search);
-const serieId = params.get('id');
-const capIndex = parseInt(params.get('cap'));
+const urlParams = new URLSearchParams(window.location.search);
+const seriesId = urlParams.get('series');
+const chaptersContainer = document.getElementById('chapters');
 
-fetch('data.json')
-  .then(res => res.json())
-  .then(data => {
-    const serie = data.series.find(s => s.id === serieId);
-    if (!serie) return;
-    const cap = serie.capitulos[capIndex];
-    if (!cap) return;
+// Ejemplo: 3 capítulos por serie
+const chapters = [
+  {title:"Chapter 1", img:"https://ah-img.luscious.net/KOKOMIEL/370689/pagina-1.jpg", link:"viewer.html?chapter=1"},
+  {title:"Chapter 2", img:"https://ah-img.luscious.net/KOKOMIEL/370689/pagina-2.jpg", link:"viewer.html?chapter=2"},
+  {title:"Chapter 3", img:"https://ah-img.luscious.net/KOKOMIEL/370689/pagina-3.jpg", link:"viewer.html?chapter=3"}
+];
 
-    cap.imagenes.forEach(img => {
-      const el = document.createElement('img');
-      el.src = img;
-      el.alt = cap.titulo;
-      el.className = 'chapter-img';
-      contenido.appendChild(el);
-    });
-
-    // link volver a comic
-    document.getElementById('back-comic').href = `comic.html?id=${serie.id}`;
-  });
+chapters.forEach((c, idx)=>{
+  const div=document.createElement('div');
+  div.className='card';
+  div.style.border = idx % 2 === 0 ? "3px solid #ff00c8" : "3px solid #00ffff";
+  div.innerHTML=`<img src="${c.img}" alt="${c.title}"><p>${c.title}</p>`;
+  div.onclick = ()=> window.location.href = c.link;
+  chaptersContainer.appendChild(div);
+});
 </script>
 
 </body>
