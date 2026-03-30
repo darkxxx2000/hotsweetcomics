@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Capítulos de Serie</title>
+<title>Capítulos</title>
 <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
@@ -30,6 +30,7 @@ fetch('data.json')
     serie.capitulos.forEach((cap, index) => {
       const div = document.createElement('div');
       div.className = 'capitulo-card';
+      div.style.border = "2px solid #00FFFF"; // borde de capítulos
       div.innerHTML = `
         <a href="chapter.html?id=${serie.id}&cap=${index}">
           <img src="${cap.portada}" alt="${cap.titulo}">
