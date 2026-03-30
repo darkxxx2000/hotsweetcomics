@@ -9,61 +9,104 @@
 body{
     margin:0;
     font-family:Arial, Helvetica, sans-serif;
-    background: linear-gradient(180deg, #000 0%, #1a001f 100%);
+    background: linear-gradient(180deg, #000 0%, #1b0022 100%);
     color:#fff;
 }
 
+/* HEADER */
 header{
     text-align:center;
     padding:40px 20px 10px 20px;
 }
 
 h1{
-    font-size:48px;
+    font-size:52px;
     color:#fff;
-    text-shadow:
-        0 0 8px #800000,
-        0 0 16px #800000,
-        0 0 24px #ff0040;
     margin:0;
+    text-shadow:
+        0 0 6px #800000,
+        0 0 14px #800000,
+        0 0 28px #ff003c;
 }
 
 h2{
     margin-top:10px;
-    color:#ccc;
+    color:#ddd;
+    letter-spacing:6px;
     font-weight:normal;
-    letter-spacing:4px;
 }
 
-.container{
+/* NAVBAR */
+.navbar{
+    text-align:center;
+    margin:25px 0;
+}
+
+.navbar a{
+    display:inline-block;
+    margin:6px 8px;
+    padding:10px 18px;
+    background:#2a0033;
+    color:#fff;
+    text-decoration:none;
+    border-radius:6px;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.navbar a:hover{
+    background:#4a005a;
+    box-shadow:0 0 10px #ff003c;
+}
+
+/* SECTIONS */
+section{
     max-width:1000px;
     margin:auto;
-    padding:20px;
+    padding:40px 20px;
 }
 
 .card{
-    background:#0d0d0d;
-    margin-bottom:40px;
+    background:#0f0f0f;
     padding:20px;
     border-radius:10px;
+    margin-bottom:40px;
+}
+
+.card img{
+    width:100%;
+    border-radius:6px;
+    margin-bottom:10px;
 }
 
 .title{
     font-size:24px;
-    margin-bottom:10px;
     color:#ff66aa;
 }
 
 .desc{
     font-size:16px;
-    margin-bottom:15px;
     color:#bbb;
+    margin-bottom:15px;
 }
 
-.card img{
-    width:100%;
-    margin-bottom:10px;
-    border-radius:6px;
+/* FOOTER */
+footer{
+    text-align:center;
+    padding:25px;
+    background:#111;
+    color:#888;
+    font-size:14px;
+}
+
+footer a{
+    color:#ff66aa;
+    text-decoration:none;
+    margin:0 10px;
+}
+
+footer a:hover{
+    text-decoration:underline;
 }
 </style>
 </head>
@@ -74,30 +117,56 @@ h2{
     <h2>MAGMA DOUX</h2>
 </header>
 
-<div class="container" id="content"></div>
+<div class="navbar">
+    <a href="#home">HOME</a>
+    <a href="#doujinshi">DOUJINSHI</a>
+    <a href="#gallery">GALLERY</a>
+    <a href="#short">SHORT COMICS</a>
+    <a href="#ai">AI</a>
+    <a href="#contact">CONTACT</a>
+</div>
+
+<section id="home"><h2>Home</h2><div id="home-content"></div></section>
+<section id="doujinshi"><h2>Doujinshi</h2><div id="doujinshi-content"></div></section>
+<section id="gallery"><h2>Gallery</h2><div id="gallery-content"></div></section>
+<section id="short"><h2>Short Comics</h2><div id="short-content"></div></section>
+<section id="ai"><h2>AI Comics</h2><div id="ai-content"></div></section>
+
+<section id="contact">
+    <h2>Contact</h2>
+    <p>You can contact me at: <b>your-email@example.com</b></p>
+</section>
+
+<footer>
+    <a href="#">Usage</a> |
+    <a href="#">Privacy Policy</a> |
+    <a href="#">Terms & Conditions</a>
+</footer>
 
 <script>
 fetch('comics.json')
 .then(res => res.json())
-.then(comics => {
-    const container = document.getElementById('content');
+.then(data => {
+    Object.keys(data).forEach(section => {
+        const container = document.getElementById(section + '-content');
+        if(container){
+            data[section].forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
 
-    comics.forEach(comic => {
-        const card = document.createElement('div');
-        card.className = 'card';
+                let images = '';
+                item.pages.forEach(img => {
+                    images += `<img src="${img}">`;
+                });
 
-        let images = '';
-        comic.pages.forEach(img => {
-            images += `<img src="${img}">`;
-        });
-
-        card.innerHTML = `
-            <div class="title">${comic.title}</div>
-            <div class="desc">${comic.desc}</div>
-            ${images}
-        `;
-
-        container.appendChild(card);
+                card.innerHTML = `
+                    <div class="title">${item.title}</div>
+                    <div class="desc">${item.desc}</div>
+                    ${images}
+                `;
+                container.appendChild(card);
+            });
+        }
     });
 });
 </script>
