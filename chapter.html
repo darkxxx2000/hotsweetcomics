@@ -5,11 +5,88 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Capítulo</title>
 <link rel="stylesheet" href="estilos.css">
+<style>
+body {
+  font-family: 'Poppins', Arial, sans-serif;
+  background: linear-gradient(135deg, #1f1c2c, #302b63, #24243e);
+  color:#fff;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:20px;
+}
+
+header {
+  text-align:center;
+  margin-bottom:30px;
+}
+
+header h1 {
+  font-size:3rem;
+  font-weight:800;
+  margin-bottom:10px;
+  text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
+}
+
+header p {
+  font-size:1.2rem;
+  color: rgba(255,255,255,0.8);
+}
+
+#contenido {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:20px;
+  width:100%;
+  max-width:1200px;
+}
+
+.chapter-img {
+  width:300px;
+  border-radius:12px;
+  border: 2px solid #ff00c8;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.chapter-img:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+.main-btn {
+  padding:10px 20px;
+  margin:20px;
+  font-size:16px;
+  cursor:pointer;
+  border-radius:12px;
+  border:none;
+  background: #ff0080;
+  font-weight:600;
+  color:#fff;
+  transition: all 0.3s ease;
+}
+
+.main-btn:hover {
+  background:#e60073;
+  transform: translateY(-3px) scale(1.05);
+}
+
+footer {
+  text-align:center;
+  padding:15px 0;
+  font-size:0.9rem;
+  color: rgba(255,255,255,0.7);
+  margin-top:40px;
+}
+</style>
 </head>
 <body>
+
 <header>
   <h1>Capítulo</h1>
-  <hr>
+  <p>Disfruta de todas las imágenes de este capítulo.</p>
 </header>
 
 <main>
@@ -17,6 +94,10 @@
   <a id="back-comic" href="#"><button class="main-btn">Volver a Comic</button></a>
   <a href="doujinshi.html"><button class="main-btn">Volver a Doujinshi</button></a>
 </main>
+
+<footer>
+  &copy; 2026 Doujinshi Hub. Todos los derechos reservados.
+</footer>
 
 <script>
 const contenido = document.getElementById('contenido');
@@ -31,6 +112,7 @@ fetch('data.json')
     if (!serie) return;
     const cap = serie.capitulos[capIndex];
     if (!cap) return;
+
     cap.imagenes.forEach(img => {
       const el = document.createElement('img');
       el.src = img;
@@ -43,5 +125,6 @@ fetch('data.json')
     document.getElementById('back-comic').href = `comic.html?id=${serie.id}`;
   });
 </script>
+
 </body>
 </html>
