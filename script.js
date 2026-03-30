@@ -1,14 +1,13 @@
-// Datos de ejemplo: franquicias con capítulos e imágenes
 const data = {
   franquicia1: [
-    { titulo: "Capítulo 1", imagen: "cap1_franquicia1.jpg" },
-    { titulo: "Capítulo 2", imagen: "cap2_franquicia1.jpg" },
-    { titulo: "Capítulo 3", imagen: "cap3_franquicia1.jpg" }
+    { titulo: "Capítulo 1", imagen: "images/cap1_f1.jpg" },
+    { titulo: "Capítulo 2", imagen: "images/cap2_f1.jpg" },
+    { titulo: "Capítulo 3", imagen: "images/cap3_f1.jpg" }
   ],
   franquicia2: [
-    { titulo: "Capítulo 1", imagen: "cap1_franquicia2.jpg" },
-    { titulo: "Capítulo 2", imagen: "cap2_franquicia2.jpg" },
-    { titulo: "Capítulo 3", imagen: "cap3_franquicia2.jpg" }
+    { titulo: "Capítulo 1", imagen: "images/cap1_f2.jpg" },
+    { titulo: "Capítulo 2", imagen: "images/cap2_f2.jpg" },
+    { titulo: "Capítulo 3", imagen: "images/cap3_f2.jpg" }
   ]
 };
 
@@ -23,14 +22,11 @@ franquicias.forEach(card => {
 });
 
 function mostrarCapitulos(franquiciaId) {
-  capitulosSection.innerHTML = ""; // limpia capítulos anteriores
+  capitulosSection.innerHTML = "";
   data[franquiciaId].forEach(cap => {
     const div = document.createElement('div');
     div.className = 'capitulo';
-    div.innerHTML = `
-      <img src="${cap.imagen}" alt="${cap.titulo}">
-      <p>${cap.titulo}</p>
-    `;
+    div.innerHTML = `<img src="${cap.imagen}" alt="${cap.titulo}"><p>${cap.titulo}</p>`;
     capitulosSection.appendChild(div);
   });
 }
