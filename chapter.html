@@ -1,0 +1,37 @@
+<div id="chapter"></div>
+
+<script>
+const id=new URLSearchParams(location.search).get('id');
+
+fetch('data.json').then(r=>r.json()).then(data=>{
+  const ch=data.chapters[id];
+
+  document.getElementById('chapter').innerHTML=`
+    <h1>${ch.title}</h1>
+    <p>${ch.desc}</p>
+    ${ch.pages.map(p=>`<img src="${p}" style="width:100%">`).join('')}
+
+    <hr>
+
+    <button onclick="like()">👍 Like</button>
+
+    <div>
+      <a target="_blank" href="https://twitter.com/intent/tweet?url=${location.href}">Twitter</a>
+      <a target="_blank" href="https://reddit.com/submit?url=${location.href}">Reddit</a>
+      <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=${location.href}">Facebook</a>
+    </div>
+
+    <!-- Comentarios con Disqus -->
+    <div id="disqus_thread"></div>
+  `;
+
+  var d=document,s=d.createElement('script');
+  s.src='https://TU_DISQUS.disqus.com/embed.js';
+  s.setAttribute('data-timestamp',+new Date());
+  (d.head||d.body).appendChild(s);
+});
+
+function like(){
+  alert("Thanks for the like!");
+}
+</script>
