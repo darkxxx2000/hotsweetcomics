@@ -1,10 +1,10 @@
 body { font-family: Arial, sans-serif; background:#111; color:#fff; padding:20px; }
-h1 { text-align:center; }
+header h1 { text-align:center; }
 hr { margin:20px 0; border:1px solid #fff; }
+.main-btn { padding:10px 20px; margin:10px; font-size:16px; cursor:pointer; }
 
-#franquicias, #capitulos {
-  display:flex; flex-wrap:wrap; gap:20px; justify-content:center;
-}
-.franquicia, .capitulo { width:200px; text-align:center; cursor:pointer; }
-.franquicia img, .capitulo img { width:100%; border-radius:10px; }
-.capitulo p { margin-top:5px; }
+#series, #capitulos, #contenido { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; }
+
+.serie-card, .capitulo-card { width:200px; text-align:center; cursor:pointer; }
+.serie-card img, .capitulo-card img, .chapter-img { width:100%; border-radius:10px; }
+.serie-card p, .capitulo-card p { margin-top:5px; text-align:center; }
