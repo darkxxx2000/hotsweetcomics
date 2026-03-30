@@ -1,33 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DARK CORNER XXX</title>
-  <link rel="stylesheet" href="estilos.css">
-</head>
-<body>
-  <!-- Encabezado -->
-  <header>
-    <h1>DARK CORNER XXX</h1>
-    <hr>
-  </header>
+body { background: #000; color: #fff; font-family: Arial, sans-serif; padding: 20px; }
+header h1 { text-align: center; font-size: 3em; }
+header hr { margin: 20px 0; border: 1px solid #fff; }
 
-  <!-- Sección Franquicias -->
-  <section id="franquicias">
-    <div class="card" data-id="franquicia1">
-      <img src="images/franquicia1.jpg" alt="Franquicia 1">
-      <h2>Franquicia 1</h2>
-    </div>
-    <div class="card" data-id="franquicia2">
-      <img src="images/franquicia2.jpg" alt="Franquicia 2">
-      <h2>Franquicia 2</h2>
-    </div>
-  </section>
-
-  <!-- Sección Capítulos -->
-  <section id="capitulos"></section>
-
-  <script src="script.js"></script>
-</body>
-</html>
+#franquicias { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 30px; }
+.card { width: 200px; cursor: pointer; text-align: center; }
+.card img { width: 100%; height: auto; border-radius: 10px; }
+#capitulos { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+.capitulo img { width: 180px; border-radius: 10px; }
+.capitulo p { text-align: center; margin-top: 5px; }
