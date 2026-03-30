@@ -39,9 +39,8 @@ fetch('data.json')
       contenido.appendChild(el);
     });
 
-    // Actualizar link de volver a comic
-    const backComic = document.getElementById('back-comic');
-    backComic.href = `comic.html?id=${serie.id}`;
+    // link volver a comic
+    document.getElementById('back-comic').href = `comic.html?id=${serie.id}`;
   });
 </script>
 </body>
