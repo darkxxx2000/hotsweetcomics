@@ -1,52 +1,24 @@
 {
-  "posts": [
+  "franquicias": [
     {
-      "id": "post_01",
-      "title": "New Doujinshi Released",
-      "desc": "A new chapter has been published in the doujinshi series.",
-      "image": "https://i.imgur.com/8Km9tLL.jpg",
-      "link": "comic.html?id=doujinshi_01",
-      "genre": ["Fantasy","NSFW"],
-      "series": "My First Doujinshi",
-      "character": ["Aiko"]
-    }
-  ],
-
-  "sections": {
-    "doujinshi": [
-      {
-        "id": "doujinshi_01",
-        "title": "My First Doujinshi",
-        "cover": "https://cover.jpg"
-      }
-    ],
-    "gallery": [],
-    "short": [],
-    "ai": []
-  },
-
-  "comics": {
-    "doujinshi_01": {
-      "title": "My First Doujinshi",
-      "desc": "Story description",
-      "cover": "https://cover.jpg",
-      "chapters": [
-        {
-          "id": "doujinshi_01_ch1",
-          "title": "Chapter 1"
-        }
+      "id": "franquicia1",
+      "nombre": "Franquicia 1",
+      "portada": "images/franquicia1/portada.jpg",
+      "capitulos": [
+        { "titulo": "Capítulo 1", "imagen": "images/franquicia1/cap1.jpg" },
+        { "titulo": "Capítulo 2", "imagen": "images/franquicia1/cap2.jpg" },
+        { "titulo": "Capítulo 3", "imagen": "images/franquicia1/cap3.jpg" }
+      ]
+    },
+    {
+      "id": "franquicia2",
+      "nombre": "Franquicia 2",
+      "portada": "images/franquicia2/portada.jpg",
+      "capitulos": [
+        { "titulo": "Capítulo 1", "imagen": "images/franquicia2/cap1.jpg" },
+        { "titulo": "Capítulo 2", "imagen": "images/franquicia2/cap2.jpg" },
+        { "titulo": "Capítulo 3", "imagen": "images/franquicia2/cap3.jpg" }
       ]
     }
-  },
-
-  "chapters": {
-  "doujinshi_01_ch1": {
-    "title": "Chapter 1",
-    "desc": "Chapter description",
-    "pages": [
-      "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-1_01E5WK2S3KNPQVT239DB9J006B.1680x0.jpg"
-      "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-2_01E5WK304672NTEH1N4TF2Z1VD.1680x0.jpg"
-      "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-3_01E5WK36TW77PS4XTJXCN3PHCN.1680x0.jpg"
-    ]
-  }
+  ]
 }
