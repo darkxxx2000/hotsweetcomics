@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter Viewer</title>
+<link rel="stylesheet" href="estilos.css">
+<script src="https://cdn.jsdelivr.net/npm/@panzoom/panzoom@9.4.0/dist/panzoom.min.js"></script>
+</head>
+<body>
+
+<header>
+  <h1>Chapter Viewer</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="doujinshi.html">Doujinshi</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="shortcomics.html">Short Comics</a>
+    <a href="post.html">Post</a>
+    <a href="ai.html">AI</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<main>
+  <section id="thumbnails" class="grid"></section>
+</main>
+
+<div id="viewer">
+  <span id="close">&times;</span>
+  <img id="viewer-img" src="" alt="chapter image">
+</div>
+
+<footer>
+  &copy; 2026 Doujinshi Hub. All rights reserved.
+</footer>
+
+<script>
+const urlParams = new URLSearchParams(window.location.search);
+const chapterId = urlParams.get('chapter');
+
+// Lista de imágenes (ejemplo, puedes generar dinámicamente)
+const images = [
+  "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-1_01E5WK2S3KNPQVT239DB9J006B.1680x0.jpg",
+  "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-2.jpg",
+  "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-3.jpg"
+];
+
+const thumbnails = document.getElementById('thumbnails');
+const viewer = document.getElementById('viewer');
+const viewerImg = document.getElementById('viewer-img');
+let currentIndex = 0;
+
+// Miniaturas
+images.forEach((src,i)=>{
+  const img=document.createElement('img');
+  img.src=src;
+  img.onclick=()=>openViewer(i);
+  thumbnails.appendChild(img);
+});
+
+function openViewer(i){
+  currentIndex=i;
+  viewer.style.display='flex';
+  viewerImg.src=images[currentIndex];
+  panzoom(viewerImg,{maxZoom:5,minZoom:0.5});
+}
+
+document.getElementById('close').onclick=()=>viewer.style.display='none';
+
+document.addEventListener('keydown',(e)=>{
+  if(viewer.style.display==='flex'){
+    if(e.key==='ArrowRight') nextImage();
+    if(e.key==='ArrowLeft') prevImage();
+  }
+});
+
+function nextImage(){
+  currentIndex=(currentIndex+1)%images.length;
+  viewerImg.src=images[currentIndex];
+}
+function prevImage(){
+  currentIndex=(currentIndex-1+images.length)%images.length;
+  viewerImg.src=images[currentIndex];
+}
+</script>
+
+</body>
+</html>
