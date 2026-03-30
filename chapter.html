@@ -2,48 +2,47 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Capítulos</title>
-<style>
-body { background:#000; color:#fff; font-family:Arial; padding:40px; }
-.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:30px; }
-.card { padding:15px; border:4px solid #00ffaa; border-radius:12px; text-align:center; cursor:pointer; }
-.card img { width:100%; border-radius:8px; }
-.card h2 { margin:10px 0; }
-.back-btn { margin-bottom:20px; padding:10px 15px; background:#333; border:none; color:#fff; cursor:pointer; border-radius:6px; }
-</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Capítulo</title>
+<link rel="stylesheet" href="estilos.css">
 </head>
 <body>
+<header>
+  <h1>Capítulo</h1>
+  <hr>
+</header>
 
-<button class="back-btn" onclick="history.back()">← Volver</button>
-<h1 id="serie-title"></h1>
-<div class="grid" id="cap-list"></div>
+<main>
+  <section id="contenido"></section>
+  <a id="back-comic" href="#"><button class="main-btn">Volver a Comic</button></a>
+  <a href="doujinshi.html"><button class="main-btn">Volver a Doujinshi</button></a>
+</main>
 
 <script>
-const params = new URLSearchParams(location.search);
-const serie = params.get('serie');
-document.getElementById('serie-title').innerText = serie;
+const contenido = document.getElementById('contenido');
+const params = new URLSearchParams(window.location.search);
+const serieId = params.get('id');
+const capIndex = parseInt(params.get('cap'));
 
-// Capítulos de ejemplo
-const capitulos = {
-  "franquicia1": [
-    { id: "cap1", title: "Capítulo 1" },
-    { id: "cap2", title: "Capítulo 2" }
-  ],
-  "franquicia2": [
-    { id: "cap1", title: "Capítulo 1" }
-  ]
-};
+fetch('data.json')
+  .then(res => res.json())
+  .then(data => {
+    const serie = data.series.find(s => s.id === serieId);
+    if (!serie) return;
+    const cap = serie.capitulos[capIndex];
+    if (!cap) return;
+    cap.imagenes.forEach(img => {
+      const el = document.createElement('img');
+      el.src = img;
+      el.alt = cap.titulo;
+      el.className = 'chapter-img';
+      contenido.appendChild(el);
+    });
 
-const container = document.getElementById('cap-list');
-capitulos[serie].forEach(c=>{
-  const a = document.createElement('a');
-  a.href = `comic.html?serie=${serie}&cap=${c.id}`;
-  a.style.textDecoration = "none";
-  a.style.color = "white";
-  a.innerHTML = `<div class="card"><img src="https://ah-img.luscious.net/KOKOMIEL/370689/pagina-1_01E5WK2S3KNPQVT239DB9J006B.1680x0.jpg"><h2>${c.title}</h2></div>`;
-  container.appendChild(a);
-});
+    // Actualizar link de volver a comic
+    const backComic = document.getElementById('back-comic');
+    backComic.href = `comic.html?id=${serie.id}`;
+  });
 </script>
-
 </body>
 </html>
