@@ -1,28 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <title>Doujinshi</title>
 <style>
-body{background:#000;color:#fff;font-family:Arial;padding:40px;}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-  gap:30px;
-}
-.card{
-  padding:15px;
-  border:4px solid #ff00aa;
-  border-radius:12px;
-  text-align:center;
-}
-.card img{
-  width:100%;
-  border-radius:8px;
-}
-.card h2{
-  margin:10px 0;
-}
+body { background: #000; color: #fff; font-family: Arial; padding: 40px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 30px; }
+.card { padding: 15px; border: 4px solid #ff00aa; border-radius: 12px; text-align: center; cursor: pointer; }
+.card img { width: 100%; border-radius: 8px; }
+.card h2 { margin: 10px 0; }
 </style>
 </head>
 <body>
@@ -31,18 +17,24 @@ body{background:#000;color:#fff;font-family:Arial;padding:40px;}
 <div class="grid" id="list"></div>
 
 <script>
-fetch('data.json').then(r=>r.json()).then(data=>{
-  const container=document.getElementById('list');
+// Lista de franquicias
+const franquicias = [
+  { id: 'franquicia1', title: 'Franquicia 1' },
+  { id: 'franquicia2', title: 'Franquicia 2' }
+];
 
-  data.sections.doujinshi.forEach(d=>{
-    container.innerHTML+=`
-      <a href="comic.html?id=${d.id}" style="text-decoration:none;color:white">
-        <div class="card">
-          <img src="https://ah-img.luscious.net/KOKOMIEL/370689/pagina-1_01E5WK2S3KNPQVT239DB9J006B.1680x0.jpg">
-          <h2>${d.title}</h2>
-        </div>
-      </a>`;
-  });
+const container = document.getElementById('list');
+franquicias.forEach(f => {
+  const a = document.createElement('a');
+  a.href = `chapter.html?serie=${f.id}`;
+  a.style.textDecoration = "none";
+  a.style.color = "white";
+  a.innerHTML = `
+    <div class="card">
+      <img src="https://ah-img.luscious.net/KOKOMIEL/370689/pagina-1_01E5WK2S3KNPQVT239DB9J006B.1680x0.jpg">
+      <h2>${f.title}</h2>
+    </div>`;
+  container.appendChild(a);
 });
 </script>
 
