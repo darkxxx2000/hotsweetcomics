@@ -1,48 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Comic</title>
-<style>
-body{background:#000;color:#fff;font-family:Arial;padding:40px;}
-.chapter{
-  margin:30px 0;
-  border:3px solid #9900ff;
-  padding:15px;
-  border-radius:10px;
-}
-.chapter img{width:220px;display:block;margin-bottom:10px;}
-</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Capítulos de Serie</title>
+<link rel="stylesheet" href="estilos.css">
 </head>
 <body>
+<header>
+  <h1>Capítulos</h1>
+  <hr>
+</header>
 
-<div id="comic"></div>
+<main>
+  <section id="capitulos"></section>
+  <a href="doujinshi.html"><button class="main-btn">Volver a Doujinshi</button></a>
+</main>
 
 <script>
-const id=new URLSearchParams(location.search).get('id');
+const capitulosContainer = document.getElementById('capitulos');
+const params = new URLSearchParams(window.location.search);
+const serieId = params.get('id');
 
-fetch('data.json').then(r=>r.json()).then(data=>{
-  const comic=data.comics[id];
-
-  let html=`
-    <h1>${comic.title}</h1>
-    <p>${comic.desc}</p>
-  `;
-
-  comic.chapters.forEach(ch=>{
-    html+=`
-      <a href="chapter.html?id=${ch.id}" style="text-decoration:none;color:white">
-        <div class="chapter">
-          <img src="https://ah-img.luscious.net/KOKOMIEL/370689/pagina-1_01E5WK2S3KNPQVT239DB9J006B.1680x0.jpg">
-          <h3>${ch.title}</h3>
-        </div>
-      </a>
-    `;
+fetch('data.json')
+  .then(res => res.json())
+  .then(data => {
+    const serie = data.series.find(s => s.id === serieId);
+    if (!serie) return;
+    serie.capitulos.forEach((cap, index) => {
+      const div = document.createElement('div');
+      div.className = 'capitulo-card';
+      div.innerHTML = `
+        <a href="chapter.html?id=${serie.id}&cap=${index}">
+          <img src="${cap.portada}" alt="${cap.titulo}">
+          <p>${cap.titulo}</p>
+        </a>`;
+      capitulosContainer.appendChild(div);
+    });
   });
-
-  document.getElementById('comic').innerHTML=html;
-});
 </script>
-
 </body>
 </html>
