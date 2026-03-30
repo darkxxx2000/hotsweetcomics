@@ -1,3 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Chapter</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{background:#000;color:#fff;font-family:Arial;margin:0;padding:30px;}
+img{width:100%;margin:15px 0;border-radius:6px;}
+button{padding:10px 15px;margin:10px 0;}
+.share a{margin-right:15px;color:#ff66aa;text-decoration:none;}
+</style>
+</head>
+<body>
+
 <div id="chapter"></div>
 
 <script>
@@ -9,19 +24,17 @@ fetch('data.json').then(r=>r.json()).then(data=>{
   document.getElementById('chapter').innerHTML=`
     <h1>${ch.title}</h1>
     <p>${ch.desc}</p>
-    ${ch.pages.map(p=>`<img src="${p}" style="width:100%">`).join('')}
 
-    <hr>
+    ${ch.pages.map(p=>`<img src="${p}">`).join('')}
 
-    <button onclick="like()">👍 Like</button>
+    <button onclick="alert('Thanks for the like!')">👍 Like</button>
 
-    <div>
+    <div class="share">
       <a target="_blank" href="https://twitter.com/intent/tweet?url=${location.href}">Twitter</a>
       <a target="_blank" href="https://reddit.com/submit?url=${location.href}">Reddit</a>
       <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=${location.href}">Facebook</a>
     </div>
 
-    <!-- Comentarios con Disqus -->
     <div id="disqus_thread"></div>
   `;
 
@@ -30,8 +43,7 @@ fetch('data.json').then(r=>r.json()).then(data=>{
   s.setAttribute('data-timestamp',+new Date());
   (d.head||d.body).appendChild(s);
 });
-
-function like(){
-  alert("Thanks for the like!");
-}
 </script>
+
+</body>
+</html>
