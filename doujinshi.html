@@ -1,64 +1,48 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Doujinshi Series</title>
+<title>Doujinshi</title>
 <link rel="stylesheet" href="estilos.css">
-<style>
-body { font-family:'Poppins',Arial,sans-serif; background:linear-gradient(135deg,#1f1c2c,#302b63,#24243e); color:#fff; padding:20px; }
-header { text-align:center; margin-bottom:40px; }
-header h1 { font-size:3rem; margin-bottom:10px; text-shadow:2px2px10px rgba(0,0,0,0.7); }
-header p { font-size:1.2rem; color: rgba(255,255,255,0.8); }
-nav { text-align:center; margin-top:20px; }
-.main-btn { padding:10px 20px; margin:5px; border-radius:12px; border:none; background:#ff0080; font-weight:600; color:#fff; cursor:pointer; transition:all 0.3s ease; text-decoration:none; display:inline-block; }
-.main-btn:hover { background:#e60073; transform:translateY(-3px) scale(1.05); }
-#series { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:30px; width:100%; max-width:1200px; margin:auto; }
-.serie-card { background: rgba(255,255,255,0.05); border-radius:15px; overflow:hidden; cursor:pointer; transition:all 0.3s ease; border:3px solid #ff00c8; text-align:center; }
-.serie-card img { width:100%; height:auto; object-fit:cover; }
-.serie-card p { margin:10px 0; font-size:1.2rem; font-weight:600; color:#fff; }
-.serie-card:hover { transform: translateY(-5px) scale(1.05); box-shadow:0 12px 25px rgba(0,0,0,0.5); }
-footer { text-align:center; padding:15px 0; color: rgba(255,255,255,0.7); margin-top:40px; }
-</style>
 </head>
 <body>
 
 <header>
   <h1>Doujinshi Series</h1>
-  <p>Selecciona tu serie favorita</p>
-
   <nav>
-    <a href="index.html" class="main-btn">Home</a>
-    <a href="doujinshi.html" class="main-btn">Doujinshi</a>
-    <a href="gallery.html" class="main-btn">Gallery</a>
-    <a href="shortcomics.html" class="main-btn">Short Comics</a>
-    <a href="post.html" class="main-btn">Post</a>
-    <a href="ai.html" class="main-btn">AI</a>
-    <a href="contact.html" class="main-btn">Contact</a>
+    <a href="index.html">Home</a>
+    <a href="doujinshi.html">Doujinshi</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="shortcomics.html">Short Comics</a>
+    <a href="post.html">Post</a>
+    <a href="ai.html">AI</a>
+    <a href="contact.html">Contact</a>
   </nav>
 </header>
 
 <main>
-  <section id="series"></section>
+  <section id="series" class="grid"></section>
 </main>
 
 <footer>
-  &copy; 2026 Doujinshi Hub. Todos los derechos reservados.
+  &copy; 2026 Doujinshi Hub. All rights reserved.
 </footer>
 
 <script>
 const seriesContainer = document.getElementById('series');
-fetch('data.json')
-  .then(res => res.json())
-  .then(data => {
-    data.series.forEach((s, idx) => {
-      const div = document.createElement('div');
-      div.className = 'serie-card';
-      div.style.border = idx % 2 === 0 ? "3px solid #ff00c8" : "3px solid #00ffff";
-      div.innerHTML = `<a href="comic.html?id=${s.id}"><img src="${s.portada}" alt="${s.nombre}"><p>${s.nombre}</p></a>`;
-      seriesContainer.appendChild(div);
-    });
-  });
+const series = [
+  {title:"Franchise 1", img:"https://ah-img.luscious.net/KOKOMIEL/370689/pagina-1_01E5WK2S3KNPQVT239DB9J006B.1680x0.jpg", link:"chapter.html?series=1"},
+  {title:"Franchise 2", img:"https://ah-img.luscious.net/KOKOMIEL/370689/pagina-2.jpg", link:"chapter.html?series=2"}
+];
+series.forEach((s, idx)=>{
+  const div = document.createElement('div');
+  div.className='card';
+  div.style.border = idx % 2 === 0 ? "3px solid #ff00c8" : "3px solid #00ffff";
+  div.innerHTML = `<img src="${s.img}" alt="${s.title}"><p>${s.title}</p>`;
+  div.onclick = ()=> window.location.href = s.link;
+  seriesContainer.appendChild(div);
+});
 </script>
 
 </body>
