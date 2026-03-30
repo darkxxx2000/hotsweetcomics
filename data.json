@@ -40,13 +40,11 @@
   },
 
   "chapters": {
-    "doujinshi_01_ch1": {
-      "title": "Chapter 1",
-      "desc": "Chapter description",
-      "pages": [
-        "https://page1.jpg",
-        "https://page2.jpg"
-      ]
-    }
+  "doujinshi_01_ch1": {
+    "title": "Chapter 1",
+    "desc": "Chapter description",
+    "pages": [
+      "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-1_01E5WK2S3KNPQVT239DB9J006B.1680x0.jpg"
+    ]
   }
 }
