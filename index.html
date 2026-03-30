@@ -3,16 +3,74 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Inicio</title>
+<title>Doujinshi Collection</title>
 <link rel="stylesheet" href="estilos.css">
+<style>
+  /* Reset básico */
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to right, #1f1c2c, #928dab);
+    color: #fff;
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:20px;
+  }
+
+  header h1 {
+    font-size:3rem;
+    margin-bottom:20px;
+    font-weight:700;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+  }
+
+  .main-btn {
+    display:inline-block;
+    padding:20px 40px;
+    font-size:1.5rem;
+    font-weight:600;
+    color:#fff;
+    background-color:#ff0080;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+    text-decoration:none;
+  }
+
+  .main-btn:hover {
+    background-color:#e60073;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 20px rgba(0,0,0,0.4);
+  }
+
+  footer {
+    margin-top:auto;
+    padding:10px 0;
+    font-size:0.9rem;
+    color:rgba(255,255,255,0.6);
+  }
+</style>
 </head>
 <body>
+
 <header>
-  <h1>Bienvenido a Doujinshi Series</h1>
-  <hr>
+  <h1>Doujinshi Collection</h1>
 </header>
+
 <main>
-  <a href="doujinshi.html"><button class="main-btn">Doujinshi</button></a>
+  <a href="doujinshi.html" class="main-btn">Ir a Doujinshi</a>
 </main>
+
+<footer>
+  &copy; 2026 Doujinshi Collection. Todos los derechos reservados.
+</footer>
+
 </body>
 </html>
