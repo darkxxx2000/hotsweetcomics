@@ -1,23 +1,44 @@
 {
-  "franquicias": [
+  "series": [
     {
       "id": "franquicia1",
       "nombre": "Franquicia 1",
-      "portada": "images/franquicia1/portada.jpg",
+      "portada": "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-1_01E5WK2S3KNPQVT239DB9J006B.1680x0.jpg",
       "capitulos": [
-        { "titulo": "Capítulo 1", "imagen": "images/franquicia1/cap1.jpg" },
-        { "titulo": "Capítulo 2", "imagen": "images/franquicia1/cap2.jpg" },
-        { "titulo": "Capítulo 3", "imagen": "images/franquicia1/cap3.jpg" }
+        {
+          "titulo": "Capítulo 1",
+          "portada": "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-1_01E5WK2S3KNPQVT239DB9J006B.1680x0.jpg",
+          "imagenes": [
+            "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-1_01E5WK2S3KNPQVT239DB9J006B.1680x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-2.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-3.jpg"
+          ]
+        },
+        {
+          "titulo": "Capítulo 2",
+          "portada": "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-4.jpg",
+          "imagenes": [
+            "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-4.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-5.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-6.jpg"
+          ]
+        }
       ]
     },
     {
       "id": "franquicia2",
       "nombre": "Franquicia 2",
-      "portada": "images/franquicia2/portada.jpg",
+      "portada": "https://ah-img.luscious.net/KOKOMIEL/370690/pagina-1.jpg",
       "capitulos": [
-        { "titulo": "Capítulo 1", "imagen": "images/franquicia2/cap1.jpg" },
-        { "titulo": "Capítulo 2", "imagen": "images/franquicia2/cap2.jpg" },
-        { "titulo": "Capítulo 3", "imagen": "images/franquicia2/cap3.jpg" }
+        {
+          "titulo": "Capítulo 1",
+          "portada": "https://ah-img.luscious.net/KOKOMIEL/370690/pagina-1.jpg",
+          "imagenes": [
+            "https://ah-img.luscious.net/KOKOMIEL/370690/pagina-1.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/370690/pagina-2.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/370690/pagina-3.jpg"
+          ]
+        }
       ]
     }
   ]
