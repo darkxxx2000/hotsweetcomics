@@ -3,73 +3,82 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Doujinshi Collection</title>
+<title>Doujinshi Hub</title>
 <link rel="stylesheet" href="estilos.css">
 <style>
-  /* Reset básico */
+  /* Reset y básico */
   * { margin:0; padding:0; box-sizing:border-box; }
 
   body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(to right, #1f1c2c, #928dab);
-    color: #fff;
+    font-family: 'Poppins', Arial, sans-serif;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    color:#fff;
+    min-height:100vh;
     display:flex;
     flex-direction:column;
-    min-height:100vh;
-    align-items:center;
+  }
+
+  /* Hero central */
+  .hero {
+    display:flex;
+    flex-direction:column;
     justify-content:center;
+    align-items:center;
     text-align:center;
-    padding:20px;
+    flex:1;
+    padding:50px 20px;
   }
 
-  header h1 {
-    font-size:3rem;
+  .hero h1 {
+    font-size:4rem;
+    font-weight:800;
     margin-bottom:20px;
-    font-weight:700;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    text-shadow: 2px 2px 12px rgba(0,0,0,0.7);
   }
 
-  .main-btn {
-    display:inline-block;
-    padding:20px 40px;
+  .hero p {
+    font-size:1.2rem;
+    margin-bottom:40px;
+    color: rgba(255,255,255,0.8);
+  }
+
+  .hero a.button {
+    padding:20px 50px;
     font-size:1.5rem;
     font-weight:600;
     color:#fff;
-    background-color:#ff0080;
+    background: linear-gradient(90deg,#ff005c,#ff00c8);
     border:none;
     border-radius:12px;
-    cursor:pointer;
+    text-decoration:none;
     transition: all 0.3s ease;
     box-shadow: 0 8px 15px rgba(0,0,0,0.3);
-    text-decoration:none;
   }
 
-  .main-btn:hover {
-    background-color:#e60073;
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 12px 20px rgba(0,0,0,0.4);
+  .hero a.button:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.5);
   }
 
   footer {
-    margin-top:auto;
-    padding:10px 0;
+    text-align:center;
+    padding:15px 0;
+    background: rgba(0,0,0,0.3);
     font-size:0.9rem;
-    color:rgba(255,255,255,0.6);
+    color: rgba(255,255,255,0.7);
   }
 </style>
 </head>
 <body>
 
-<header>
-  <h1>Doujinshi Collection</h1>
-</header>
-
-<main>
-  <a href="doujinshi.html" class="main-btn">Ir a Doujinshi</a>
-</main>
+<div class="hero">
+  <h1>Doujinshi Hub</h1>
+  <p>Explora tus series y capítulos favoritos con un diseño moderno y elegante.</p>
+  <a href="doujinshi.html" class="button">Ir a Doujinshi</a>
+</div>
 
 <footer>
-  &copy; 2026 Doujinshi Collection. Todos los derechos reservados.
+  &copy; 2026 Doujinshi Hub. Todos los derechos reservados.
 </footer>
 
 </body>
