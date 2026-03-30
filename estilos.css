@@ -1,0 +1,7 @@
+body { background: #000; color: #fff; font-family: Arial, sans-serif; padding: 20px; }
+header h1 { text-align: center; font-size: 3em; }
+header hr { margin: 20px 0; border: 1px solid #fff; }
+#franquicias { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+.card { width: 200px; cursor: pointer; text-align: center; }
+.card img { width: 100%; height: auto; border-radius: 10px; }
+#capitulos { margin-top: 30px; display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
