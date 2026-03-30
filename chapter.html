@@ -3,12 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Chapter</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-body{background:#000;color:#fff;font-family:Arial;margin:0;padding:30px;}
-img{width:100%;margin:15px 0;border-radius:6px;}
-button{padding:10px 15px;margin:10px 0;}
-.share a{margin-right:15px;color:#ff66aa;text-decoration:none;}
+body{background:#000;color:#fff;font-family:Arial;padding:40px;}
+img{width:100%;margin:15px 0;border-radius:8px;}
 </style>
 </head>
 <body>
@@ -22,26 +19,13 @@ fetch('data.json').then(r=>r.json()).then(data=>{
   const ch=data.chapters[id];
 
   document.getElementById('chapter').innerHTML=`
+    <img src="https://ah-img.luscious.net/KOKOMIEL/370689/pagina-1_01E5WK2S3KNPQVT239DB9J006B.1680x0.jpg">
+
     <h1>${ch.title}</h1>
     <p>${ch.desc}</p>
 
     ${ch.pages.map(p=>`<img src="${p}">`).join('')}
-
-    <button onclick="alert('Thanks for the like!')">👍 Like</button>
-
-    <div class="share">
-      <a target="_blank" href="https://twitter.com/intent/tweet?url=${location.href}">Twitter</a>
-      <a target="_blank" href="https://reddit.com/submit?url=${location.href}">Reddit</a>
-      <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=${location.href}">Facebook</a>
-    </div>
-
-    <div id="disqus_thread"></div>
   `;
-
-  var d=document,s=d.createElement('script');
-  s.src='https://TU_DISQUS.disqus.com/embed.js';
-  s.setAttribute('data-timestamp',+new Date());
-  (d.head||d.body).appendChild(s);
 });
 </script>
 
