@@ -1,4 +1,17 @@
 {
+  "posts": [
+    {
+      "id": "post_01",
+      "title": "New Doujinshi Released",
+      "desc": "A new chapter has been published in the doujinshi series.",
+      "image": "https://i.imgur.com/8Km9tLL.jpg",
+      "link": "comic.html?id=doujinshi_01",
+      "genre": ["Fantasy","NSFW"],
+      "series": "My First Doujinshi",
+      "character": ["Aiko"]
+    }
+  ],
+
   "sections": {
     "doujinshi": [
       {
@@ -6,7 +19,10 @@
         "title": "My First Doujinshi",
         "cover": "https://cover.jpg"
       }
-    ]
+    ],
+    "gallery": [],
+    "short": [],
+    "ai": []
   },
 
   "comics": {
