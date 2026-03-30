@@ -1,0 +1,28 @@
+<div id="comic"></div>
+
+<script>
+const id=new URLSearchParams(location.search).get('id');
+
+fetch('data.json').then(r=>r.json()).then(data=>{
+  const comic=data.comics[id];
+
+  document.getElementById('comic').innerHTML=`
+    <div style="display:flex;gap:20px;">
+      <img src="${comic.cover}" width="300">
+      <div>
+        <h1>${comic.title}</h1>
+        <p>${comic.desc}</p>
+      </div>
+    </div>
+
+    <h2>Chapters</h2>
+    ${comic.chapters.map(ch=>`
+      <div>
+        <a href="chapter.html?id=${ch.id}">
+          <h4>${ch.title}</h4>
+        </a>
+      </div>
+    `).join('')}
+  `;
+});
+</script>
