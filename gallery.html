@@ -1,62 +1,83 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gallery</title>
+<title>Gallery - HOT SWEET COMICS</title>
 <link rel="stylesheet" href="estilos.css">
-<style>
-body { font-family:'Poppins',Arial,sans-serif; background:linear-gradient(135deg,#1f1c2c,#302b63,#24243e); color:#fff; padding:20px; }
-header { text-align:center; margin-bottom:30px; }
-header h1 { font-size:3rem; margin-bottom:10px; text-shadow:2px2px10px rgba(0,0,0,0.7); }
-header p { font-size:1.2rem; color: rgba(255,255,255,0.8); }
-nav { text-align:center; margin-top:20px; }
-.main-btn { padding:10px 20px; margin:5px; border-radius:12px; border:none; background:#ff0080; font-weight:600; color:#fff; cursor:pointer; transition:all 0.3s ease; text-decoration:none; display:inline-block; }
-.main-btn:hover { background:#e60073; transform:translateY(-3px) scale(1.05); }
-#gallery { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:30px; max-width:1200px; margin:auto; }
-.gallery-img { border-radius:12px; border:3px solid #ff00c8; transition: transform 0.3s ease, box-shadow 0.3s ease; cursor:pointer; }
-.gallery-img:hover { transform:translateY(-5px) scale(1.05); box-shadow:0 12px 25px rgba(0,0,0,0.5); }
-footer { text-align:center; padding:15px 0; color: rgba(255,255,255,0.7); margin-top:40px; }
-</style>
+<script src="https://cdn.jsdelivr.net/npm/@panzoom/panzoom@9.4.0/dist/panzoom.min.js"></script>
 </head>
 <body>
 
 <header>
-  <h1>Gallery</h1>
-  <p>Explora nuestras imágenes destacadas</p>
-
+  <h1>HOT SWEET COMICS</h1>
   <nav>
-    <a href="index.html" class="main-btn">Home</a>
-    <a href="doujinshi.html" class="main-btn">Doujinshi</a>
-    <a href="gallery.html" class="main-btn">Gallery</a>
-    <a href="shortcomics.html" class="main-btn">Short Comics</a>
-    <a href="post.html" class="main-btn">Post</a>
-    <a href="ai.html" class="main-btn">AI</a>
-    <a href="contact.html" class="main-btn">Contact</a>
+    <a href="index.html">Home</a>
+    <a href="doujinshi.html">Doujinshi</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="shortcomics.html">Short Comics</a>
+    <a href="post.html">Post</a>
+    <a href="ai.html">AI</a>
+    <a href="contact.html">Contact</a>
   </nav>
 </header>
 
 <main>
-  <section id="gallery"></section>
+  <section id="thumbnails" class="grid"></section>
 </main>
 
+<div id="viewer">
+  <span id="close">&times;</span>
+  <img id="viewer-img">
+</div>
+
 <footer>
-  &copy; 2026 Doujinshi Hub. Todos los derechos reservados.
+  <p>
+    <a href="usage.html">Usage</a> |
+    <a href="privacy.html">Privacy Policy</a> |
+    <a href="terms.html">Terms & Conditions</a>
+  </p>
 </footer>
 
 <script>
-const galleryContainer = document.getElementById('gallery');
 const images = [
-  "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-1_01E5WK2S3KNPQVT239DB9J006B.1680x0.jpg",
-  "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-2.jpg",
-  "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-3.jpg"
+  "IMAGE_URL_1",
+  "IMAGE_URL_2",
+  "IMAGE_URL_3"
 ];
-images.forEach(img => {
-  const el = document.createElement('img');
-  el.src = img;
-  el.className = 'gallery-img';
-  galleryContainer.appendChild(el);
+
+const thumbs = document.getElementById('thumbnails');
+const viewer = document.getElementById('viewer');
+const viewerImg = document.getElementById('viewer-img');
+let index = 0;
+
+images.forEach((src,i)=>{
+  const img=document.createElement('img');
+  img.src=src;
+  img.onclick=()=>openViewer(i);
+  thumbs.appendChild(img);
 });
+
+function openViewer(i){
+  index=i;
+  viewer.style.display='flex';
+  viewerImg.src=images[index];
+  panzoom(viewerImg,{maxZoom:5,minZoom:0.5});
+}
+
+document.getElementById('close').onclick=()=>viewer.style.display='none';
+
+document.addEventListener('keydown',(e)=>{
+  if(viewer.style.display==='flex'){
+    if(e.key==='ArrowRight') change(1);
+    if(e.key==='ArrowLeft') change(-1);
+  }
+});
+
+function change(step){
+  index=(index+step+images.length)%images.length;
+  viewerImg.src=images[index];
+}
 </script>
 
 </body>
