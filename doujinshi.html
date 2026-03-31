@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Doujinshi</title>
+<title>Doujinshi - HOT SWEET COMICS</title>
 <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
 
 <header>
-  <h1>Doujinshi Series</h1>
+  <h1>HOT SWEET COMICS</h1>
   <nav>
     <a href="index.html">Home</a>
     <a href="doujinshi.html">Doujinshi</a>
@@ -21,29 +21,21 @@
   </nav>
 </header>
 
-<main>
-  <section id="series" class="grid"></section>
+<main class="grid">
+
+  <!-- Serie 1 -->
+  <div class="card" onclick="location.href='chapter-franchise1.html'">
+    <img src="URL_IMAGEN_SERIE_1">
+    <p>Franchise 1</p>
+  </div>
+
+  <!-- Serie 2 -->
+  <div class="card" onclick="location.href='chapter-franchise2.html'">
+    <img src="URL_IMAGEN_SERIE_2">
+    <p>Franchise 2</p>
+  </div>
+
 </main>
-
-<footer>
-  &copy; 2026 Doujinshi Hub. All rights reserved.
-</footer>
-
-<script>
-const seriesContainer = document.getElementById('series');
-const series = [
-  {title:"Franchise 1", img:"https://ah-img.luscious.net/KOKOMIEL/370689/pagina-1_01E5WK2S3KNPQVT239DB9J006B.1680x0.jpg", link:"chapter.html?series=1"},
-  {title:"Franchise 2", img:"https://ah-img.luscious.net/KOKOMIEL/370689/pagina-2.jpg", link:"chapter.html?series=2"}
-];
-series.forEach((s, idx)=>{
-  const div = document.createElement('div');
-  div.className='card';
-  div.style.border = idx % 2 === 0 ? "3px solid #ff00c8" : "3px solid #00ffff";
-  div.innerHTML = `<img src="${s.img}" alt="${s.title}"><p>${s.title}</p>`;
-  div.onclick = ()=> window.location.href = s.link;
-  seriesContainer.appendChild(div);
-});
-</script>
 
 </body>
 </html>
