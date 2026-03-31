@@ -21,21 +21,50 @@
   </nav>
 </header>
 
-<main class="grid">
+<main class="grid" id="grid"></main>
 
-  <!-- Serie 1 -->
-  <div class="card" onclick="location.href='chapter-franchise1.html'">
-    <img src="URL_IMAGEN_SERIE_1">
-    <p>Franchise 1</p>
-  </div>
+<script>
+const params = new URLSearchParams(location.search);
+const serieID = params.get("serie");
 
-  <!-- Serie 2 -->
-  <div class="card" onclick="location.href='chapter-franchise2.html'">
-    <img src="URL_IMAGEN_SERIE_2">
-    <p>Franchise 2</p>
-  </div>
+fetch("data.json")
+.then(r=>r.json())
+.then(data=>{
+  const grid=document.getElementById("grid");
 
-</main>
+  if(!serieID){
+    // MOSTRAR SERIES
+    data.series.forEach(serie=>{
+      const div=document.createElement("div");
+      div.className="card";
+      div.innerHTML=`
+        <img src="${serie.portada}">
+        <p>${serie.nombre}</p>
+      `;
+      div.onclick=()=>{
+        location.href=`doujinshi.html?serie=${serie.id}`;
+      };
+      grid.appendChild(div);
+    });
+
+  }else{
+    // MOSTRAR CAPÍTULOS
+    const serie = data.series.find(s=>s.id===serieID);
+    serie.capitulos.forEach((cap,i)=>{
+      const div=document.createElement("div");
+      div.className="card";
+      div.innerHTML=`
+        <img src="${cap.portada}">
+        <p>${cap.titulo}</p>
+      `;
+      div.onclick=()=>{
+        location.href=`viewer.html?serie=${serieID}&cap=${i}`;
+      };
+      grid.appendChild(div);
+    });
+  }
+});
+</script>
 
 </body>
 </html>
