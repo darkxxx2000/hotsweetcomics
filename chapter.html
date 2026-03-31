@@ -3,13 +3,63 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chapters</title>
+<title>Chapter Viewer - HOT SWEET COMICS</title>
 <link rel="stylesheet" href="estilos.css">
+<script src="https://cdn.jsdelivr.net/npm/@panzoom/panzoom@9.4.0/dist/panzoom.min.js"></script>
+
+<style>
+/* GRILLA DE MINIATURAS */
+#thumbGrid{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px,1fr));
+  gap:10px;
+  max-width:1200px;
+  margin:30px auto;
+}
+
+#thumbGrid img{
+  width:100%;
+  cursor:pointer;
+  border-radius:8px;
+  border:2px solid #ff00c8;
+  transition:0.2s;
+}
+
+#thumbGrid img:hover{
+  transform:scale(1.05);
+}
+
+/* VISOR GRANDE */
+#viewer{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.96);
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+
+#viewer img{
+  max-width:90%;
+  max-height:90%;
+  cursor:grab;
+}
+
+#closeBtn{
+  position:absolute;
+  top:20px;
+  right:30px;
+  font-size:40px;
+  color:white;
+  cursor:pointer;
+}
+</style>
 </head>
 <body>
 
 <header>
-  <h1>Chapters</h1>
+  <h1>HOT SWEET COMICS</h1>
   <nav>
     <a href="index.html">Home</a>
     <a href="doujinshi.html">Doujinshi</a>
@@ -22,33 +72,71 @@
 </header>
 
 <main>
-  <section id="chapters" class="grid"></section>
+  <!-- AQUI SE GENERA LA GRILLA -->
+  <section id="thumbGrid"></section>
 </main>
 
-<footer>
-  &copy; 2026 Doujinshi Hub. All rights reserved.
+<!-- VISOR -->
+<div id="viewer">
+  <div id="closeBtn">&times;</div>
+  <img id="bigImg">
+</div>
+
+<footer style="text-align:center;margin:40px 0;">
+  <a href="usage.html">Usage</a> |
+  <a href="privacy.html">Privacy Policy</a> |
+  <a href="terms.html">Terms & Conditions</a>
 </footer>
 
 <script>
-const urlParams = new URLSearchParams(window.location.search);
-const seriesId = urlParams.get('series');
-const chaptersContainer = document.getElementById('chapters');
-
-// Ejemplo: 3 capítulos por serie
-const chapters = [
-  {title:"Chapter 1", img:"https://ah-img.luscious.net/KOKOMIEL/370689/pagina-1.jpg", link:"viewer.html?chapter=1"},
-  {title:"Chapter 2", img:"https://ah-img.luscious.net/KOKOMIEL/370689/pagina-2.jpg", link:"viewer.html?chapter=2"},
-  {title:"Chapter 3", img:"https://ah-img.luscious.net/KOKOMIEL/370689/pagina-3.jpg", link:"viewer.html?chapter=3"}
+// 👉 AQUI SOLO PEGAS LAS IMAGENES DEL CAPITULO
+const images = [
+  "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-1_01E5WK2S3KNPQVT239DB9J006B.1680x0.jpg",
+  "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-2_01E5WK304672NTEH1N4TF2Z1VD.1680x0.jpg",
+  "PEGA_AQUI_URL_3"
 ];
 
-chapters.forEach((c, idx)=>{
-  const div=document.createElement('div');
-  div.className='card';
-  div.style.border = idx % 2 === 0 ? "3px solid #ff00c8" : "3px solid #00ffff";
-  div.innerHTML=`<img src="${c.img}" alt="${c.title}"><p>${c.title}</p>`;
-  div.onclick = ()=> window.location.href = c.link;
-  chaptersContainer.appendChild(div);
+const grid = document.getElementById("thumbGrid");
+const viewer = document.getElementById("viewer");
+const bigImg = document.getElementById("bigImg");
+let current = 0;
+let pan;
+
+// crear miniaturas
+images.forEach((src,i)=>{
+  const img=document.createElement("img");
+  img.src=src;
+  img.onclick=()=>openViewer(i);
+  grid.appendChild(img);
 });
+
+function openViewer(i){
+  current=i;
+  viewer.style.display="flex";
+  bigImg.src=images[current];
+
+  if(pan) pan.destroy();
+  pan = Panzoom(bigImg,{ maxScale:5, minScale:1 });
+  bigImg.parentElement.addEventListener('wheel', pan.zoomWithWheel);
+}
+
+// cerrar
+document.getElementById("closeBtn").onclick=()=>{
+  viewer.style.display="none";
+}
+
+// flechas
+document.addEventListener("keydown",(e)=>{
+  if(viewer.style.display==="flex"){
+    if(e.key==="ArrowRight") change(1);
+    if(e.key==="ArrowLeft") change(-1);
+  }
+});
+
+function change(step){
+  current=(current+step+images.length)%images.length;
+  bigImg.src=images[current];
+}
 </script>
 
 </body>
