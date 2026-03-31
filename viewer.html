@@ -2,58 +2,34 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chapter Viewer - HOT SWEET COMICS</title>
+<title>Viewer - HOT SWEET COMICS</title>
 <link rel="stylesheet" href="estilos.css">
 <script src="https://cdn.jsdelivr.net/npm/@panzoom/panzoom@9.4.0/dist/panzoom.min.js"></script>
 
 <style>
-/* GRILLA DE MINIATURAS */
-#thumbGrid{
-  display:grid;
-  grid-template-columns: repeat(auto-fill, minmax(110px,1fr));
-  gap:10px;
-  max-width:1200px;
-  margin:30px auto;
+#thumbGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(110px,1fr));
+  gap: 10px;
+  padding: 30px;
 }
-
-#thumbGrid img{
-  width:100%;
-  cursor:pointer;
-  border-radius:8px;
-  border:2px solid #ff00c8;
-  transition:0.2s;
+#thumbGrid img {
+  width: 100%;
+  cursor: pointer;
+  border-radius: 8px;
+  border: 2px solid #ff00c8;
 }
-
-#thumbGrid img:hover{
-  transform:scale(1.05);
+#viewer {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.95);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
 }
-
-/* VISOR GRANDE */
-#viewer{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.96);
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
-}
-
-#viewer img{
-  max-width:90%;
-  max-height:90%;
-  cursor:grab;
-}
-
-#closeBtn{
-  position:absolute;
-  top:20px;
-  right:30px;
-  font-size:40px;
-  color:white;
-  cursor:pointer;
-}
+#viewer img { max-width: 90%; max-height: 90%; cursor: grab; }
+#closeBtn { position:absolute; top:20px; right:30px; font-size:40px; color:#fff; cursor:pointer;}
 </style>
 </head>
 <body>
@@ -72,11 +48,9 @@
 </header>
 
 <main>
-  <!-- AQUI SE GENERA LA GRILLA -->
   <section id="thumbGrid"></section>
 </main>
 
-<!-- VISOR -->
 <div id="viewer">
   <div id="closeBtn">&times;</div>
   <img id="bigImg">
@@ -89,64 +63,53 @@
 </footer>
 
 <script>
-// 👉 AQUI SOLO PEGAS LAS IMAGENES DEL CAPITULO
-const images = [
-  "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-1_01E5WK2S3KNPQVT239DB9J006B.1680x0.jpg",
-  "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-2_01E5WK304672NTEH1N4TF2Z1VD.1680x0.jpg",
-  "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-3_01E5WK36TW77PS4XTJXCN3PHCN.1680x0.jpg",
-  "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-4_01E5WK3AW22MFNJ9DZBN4TCZED.1680x0.jpg",
-  "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-5_01E5WK3FBKX4P9PFZ9NNT09B2X.1680x0.jpg",
-  "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-6_01E5WK3NG0YVWHQZ6955644EW0.1680x0.jpg",
-  "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-7_01E5WK3SQQXF013AQ8Z89CR0M7.1680x0.jpg",
-  "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-8_01E5WK40750AGS7YQJ4H68XSJ0.1680x0.jpg",
-  "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-9_01E5WK47KA3PX53PNHAK7DQAH0.1680x0.jpg",
-  "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-10_01E5WK4E733ENXAMEEK9FWD0W9.1680x0.jpg",
-  "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-11_01E5WK4NYHM4EAM8H04M6M6T04.1680x0.jpg",
-  "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-12_01E5WK4VZ87FSKN26PGB8HFZ4R.1680x0.jpg",
-  "https://ah-img.luscious.net/KOKOMIEL/370689/portada_01E5WK4YVKQ2ZZJE6ZR0N6JPEF.1680x0.jpg" "
-];
+const params = new URLSearchParams(location.search);
+const serieID = params.get("serie");
+const capIndex = Number(params.get("cap"));
 
-const grid = document.getElementById("thumbGrid");
-const viewer = document.getElementById("viewer");
-const bigImg = document.getElementById("bigImg");
-let current = 0;
-let pan;
+fetch("data.json")
+  .then(res => res.json())
+  .then(data => {
+    const serie = data.series.find(s => s.id === serieID);
+    if (!serie) return;
+    const cap = serie.capitulos[capIndex];
+    if (!cap) return;
 
-// crear miniaturas
-images.forEach((src,i)=>{
-  const img=document.createElement("img");
-  img.src=src;
-  img.onclick=()=>openViewer(i);
-  grid.appendChild(img);
-});
+    const images = cap.imagenes;
+    const grid = document.getElementById("thumbGrid");
+    const viewer = document.getElementById("viewer");
+    const bigImg = document.getElementById("bigImg");
+    let current = 0;
+    let pan;
 
-function openViewer(i){
-  current=i;
-  viewer.style.display="flex";
-  bigImg.src=images[current];
+    images.forEach((src,i) => {
+      const img = document.createElement("img");
+      img.src = src;
+      img.onclick = () => {
+        current = i;
+        bigImg.src = src;
+        viewer.style.display = "flex";
+        if (pan) pan.destroy();
+        pan = Panzoom(bigImg,{maxScale:5,minScale:1});
+        bigImg.parentElement.addEventListener('wheel', pan.zoomWithWheel);
+      };
+      grid.appendChild(img);
+    });
 
-  if(pan) pan.destroy();
-  pan = Panzoom(bigImg,{ maxScale:5, minScale:1 });
-  bigImg.parentElement.addEventListener('wheel', pan.zoomWithWheel);
-}
-
-// cerrar
-document.getElementById("closeBtn").onclick=()=>{
-  viewer.style.display="none";
-}
-
-// flechas
-document.addEventListener("keydown",(e)=>{
-  if(viewer.style.display==="flex"){
-    if(e.key==="ArrowRight") change(1);
-    if(e.key==="ArrowLeft") change(-1);
-  }
-});
-
-function change(step){
-  current=(current+step+images.length)%images.length;
-  bigImg.src=images[current];
-}
+    document.getElementById("closeBtn").onclick = () => viewer.style.display = "none";
+    document.addEventListener("keydown", e => {
+      if (viewer.style.display === "flex") {
+        if (e.key === "ArrowRight" && current < images.length-1) {
+          current++;
+          bigImg.src = images[current];
+        }
+        if (e.key === "ArrowLeft" && current > 0) {
+          current--;
+          bigImg.src = images[current];
+        }
+      }
+    });
+  });
 </script>
 
 </body>
