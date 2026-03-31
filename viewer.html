@@ -3,14 +3,63 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chapter Viewer</title>
+<title>Chapter Viewer - HOT SWEET COMICS</title>
 <link rel="stylesheet" href="estilos.css">
 <script src="https://cdn.jsdelivr.net/npm/@panzoom/panzoom@9.4.0/dist/panzoom.min.js"></script>
+
+<style>
+/* GRILLA DE MINIATURAS */
+#thumbGrid{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px,1fr));
+  gap:10px;
+  max-width:1200px;
+  margin:30px auto;
+}
+
+#thumbGrid img{
+  width:100%;
+  cursor:pointer;
+  border-radius:8px;
+  border:2px solid #ff00c8;
+  transition:0.2s;
+}
+
+#thumbGrid img:hover{
+  transform:scale(1.05);
+}
+
+/* VISOR GRANDE */
+#viewer{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.96);
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+
+#viewer img{
+  max-width:90%;
+  max-height:90%;
+  cursor:grab;
+}
+
+#closeBtn{
+  position:absolute;
+  top:20px;
+  right:30px;
+  font-size:40px;
+  color:white;
+  cursor:pointer;
+}
+</style>
 </head>
 <body>
 
 <header>
-  <h1>Chapter Viewer</h1>
+  <h1>HOT SWEET COMICS</h1>
   <nav>
     <a href="index.html">Home</a>
     <a href="doujinshi.html">Doujinshi</a>
@@ -23,65 +72,70 @@
 </header>
 
 <main>
-  <section id="thumbnails" class="grid"></section>
+  <!-- AQUI SE GENERA LA GRILLA -->
+  <section id="thumbGrid"></section>
 </main>
 
+<!-- VISOR -->
 <div id="viewer">
-  <span id="close">&times;</span>
-  <img id="viewer-img" src="" alt="chapter image">
+  <div id="closeBtn">&times;</div>
+  <img id="bigImg">
 </div>
 
-<footer>
-  &copy; 2026 Doujinshi Hub. All rights reserved.
+<footer style="text-align:center;margin:40px 0;">
+  <a href="usage.html">Usage</a> |
+  <a href="privacy.html">Privacy Policy</a> |
+  <a href="terms.html">Terms & Conditions</a>
 </footer>
 
 <script>
-const urlParams = new URLSearchParams(window.location.search);
-const chapterId = urlParams.get('chapter');
-
-// Lista de imágenes (ejemplo, puedes generar dinámicamente)
+// 👉 AQUI SOLO PEGAS LAS IMAGENES DEL CAPITULO
 const images = [
-  "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-1_01E5WK2S3KNPQVT239DB9J006B.1680x0.jpg",
-  "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-2.jpg",
-  "https://ah-img.luscious.net/KOKOMIEL/370689/pagina-3.jpg"
+  "PEGA_AQUI_URL_1",
+  "PEGA_AQUI_URL_2",
+  "PEGA_AQUI_URL_3"
 ];
 
-const thumbnails = document.getElementById('thumbnails');
-const viewer = document.getElementById('viewer');
-const viewerImg = document.getElementById('viewer-img');
-let currentIndex = 0;
+const grid = document.getElementById("thumbGrid");
+const viewer = document.getElementById("viewer");
+const bigImg = document.getElementById("bigImg");
+let current = 0;
+let pan;
 
-// Miniaturas
+// crear miniaturas
 images.forEach((src,i)=>{
-  const img=document.createElement('img');
+  const img=document.createElement("img");
   img.src=src;
   img.onclick=()=>openViewer(i);
-  thumbnails.appendChild(img);
+  grid.appendChild(img);
 });
 
 function openViewer(i){
-  currentIndex=i;
-  viewer.style.display='flex';
-  viewerImg.src=images[currentIndex];
-  panzoom(viewerImg,{maxZoom:5,minZoom:0.5});
+  current=i;
+  viewer.style.display="flex";
+  bigImg.src=images[current];
+
+  if(pan) pan.destroy();
+  pan = Panzoom(bigImg,{ maxScale:5, minScale:1 });
+  bigImg.parentElement.addEventListener('wheel', pan.zoomWithWheel);
 }
 
-document.getElementById('close').onclick=()=>viewer.style.display='none';
+// cerrar
+document.getElementById("closeBtn").onclick=()=>{
+  viewer.style.display="none";
+}
 
-document.addEventListener('keydown',(e)=>{
-  if(viewer.style.display==='flex'){
-    if(e.key==='ArrowRight') nextImage();
-    if(e.key==='ArrowLeft') prevImage();
+// flechas
+document.addEventListener("keydown",(e)=>{
+  if(viewer.style.display==="flex"){
+    if(e.key==="ArrowRight") change(1);
+    if(e.key==="ArrowLeft") change(-1);
   }
 });
 
-function nextImage(){
-  currentIndex=(currentIndex+1)%images.length;
-  viewerImg.src=images[currentIndex];
-}
-function prevImage(){
-  currentIndex=(currentIndex-1+images.length)%images.length;
-  viewerImg.src=images[currentIndex];
+function change(step){
+  current=(current+step+images.length)%images.length;
+  bigImg.src=images[current];
 }
 </script>
 
