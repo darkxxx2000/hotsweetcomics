@@ -56,6 +56,82 @@
       ]
     },
     {
+          "titulo": "Capítulo 4",
+          "portada": "URL_PORTADA_CAP4",
+          "imagenes": [ "URL_PAGINA_1", "URL_PAGINA_2", "..."]
+        },
+        {
+          "titulo": "Capítulo 5",
+          "portada": "URL_PORTADA_CAP5",
+          "imagenes": [ "URL_PAGINA_1", "URL_PAGINA_2", "..."]
+        },
+        {
+          "titulo": "Especial 1",
+          "portada": "URL_PORTADA_ESP1",
+          "imagenes": [ "URL_PAGINA_1", "URL_PAGINA_2", "..."]
+        },
+        {
+          "titulo": "Especial 2",
+          "portada": "URL_PORTADA_ESP2",
+          "imagenes": [ "URL_PAGINA_1", "URL_PAGINA_2", "..."]
+        },
+        {
+          "titulo": "Capítulo 6",
+          "portada": "URL_PORTADA_CAP6",
+          "imagenes": [ "URL_PAGINA_1", "URL_PAGINA_2", "..."]
+        },
+        {
+          "titulo": "Capítulo 7",
+          "portada": "URL_PORTADA_CAP7",
+          "imagenes": [ "URL_PAGINA_1", "URL_PAGINA_2", "..."]
+        },
+        {
+          "titulo": "Capítulo 8",
+          "portada": "URL_PORTADA_CAP8",
+          "imagenes": [ "URL_PAGINA_1", "URL_PAGINA_2", "..."]
+        },
+        {
+          "titulo": "Capítulo 9",
+          "portada": "URL_PORTADA_CAP9",
+          "imagenes": [ "URL_PAGINA_1", "URL_PAGINA_2", "..."]
+        },
+        {
+          "titulo": "Capítulo 10",
+          "portada": "URL_PORTADA_CAP10",
+          "imagenes": [ "URL_PAGINA_1", "URL_PAGINA_2", "..."]
+        },
+        {
+          "titulo": "Capítulo 11",
+          "portada": "URL_PORTADA_CAP11",
+          "imagenes": [ "URL_PAGINA_1", "URL_PAGINA_2", "..."]
+        },
+        {
+          "titulo": "Capítulo 12",
+          "portada": "URL_PORTADA_CAP12",
+          "imagenes": [ "URL_PAGINA_1", "URL_PAGINA_2", "..."]
+        }
+      ]
+    },
+    {
+      "id": "franquicia2",
+      "nombre": "Franquicia 2",
+      "portada": "https://ah-img.luscious.net/KOKOMIEL/370690/pagina-1.jpg",
+      "capitulos": [
+        {
+          "titulo": "Capítulo 1",
+          "portada": "https://ah-img.luscious.net/KOKOMIEL/370690/pagina-1.jpg",
+          "imagenes": [ "URL_PAGINA_1", "URL_PAGINA_2", "..."]
+        },
+        {
+          "titulo": "Capítulo 2",
+          "portada": "https://ah-img.luscious.net/KOKOMIEL/370690/pagina-4.jpg",
+          "imagenes": [ "URL_PAGINA_1", "URL_PAGINA_2", "..."]
+        }
+      ]
+    }
+  ]
+},
+    {
       "id": "franquicia2",
       "nombre": "Franquicia 2",
       "portada": "https://ah-img.luscious.net/KOKOMIEL/370690/pagina-1.jpg",
