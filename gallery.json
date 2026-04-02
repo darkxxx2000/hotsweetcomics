@@ -1,0 +1,12 @@
+{
+  "imagenes": [
+    {
+      "url": "URL_IMAGEN_1",
+      "titulo": "Titulo opcional"
+    },
+    {
+      "url": "URL_IMAGEN_2",
+      "titulo": "Titulo opcional"
+    }
+  ]
+}
