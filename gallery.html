@@ -2,82 +2,86 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gallery - HOT SWEET COMICS</title>
-<link rel="stylesheet" href="estilos.css">
-<script src="https://cdn.jsdelivr.net/npm/@panzoom/panzoom@9.4.0/dist/panzoom.min.js"></script>
+<title>Gallery</title>
+<style>
+body{
+  margin:0;
+  background:#0b0b0b;
+  font-family:Arial, Helvetica, sans-serif;
+  color:#fff;
+}
+
+header{
+  padding:20px 40px;
+  font-size:28px;
+  letter-spacing:2px;
+  border-bottom:1px solid #222;
+  background:#111;
+}
+
+.grid{
+  column-count:4;
+  column-gap:15px;
+  padding:30px 40px;
+}
+
+.card{
+  break-inside:avoid;
+  margin-bottom:15px;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+  border-radius:10px;
+}
+
+.card img{
+  width:100%;
+  display:block;
+  transition:0.4s;
+}
+
+.card:hover img{
+  transform:scale(1.05);
+  filter:brightness(0.8);
+}
+
+.card .title{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  padding:10px;
+  background:linear-gradient(transparent, rgba(0,0,0,0.9));
+  font-size:14px;
+}
+</style>
 </head>
 <body>
 
-<header>
-  <h1>HOT SWEET COMICS</h1>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="doujinshi.html">Doujinshi</a>
-    <a href="gallery.html">Gallery</a>
-    <a href="shortcomics.html">Short Comics</a>
-    <a href="post.html">Post</a>
-    <a href="ai.html">AI</a>
-    <a href="contact.html">Contact</a>
-  </nav>
-</header>
+<header>GALLERY</header>
 
-<main>
-  <section id="thumbnails" class="grid"></section>
-</main>
-
-<div id="viewer">
-  <span id="close">&times;</span>
-  <img id="viewer-img">
-</div>
-
-<footer>
-  <p>
-    <a href="usage.html">Usage</a> |
-    <a href="privacy.html">Privacy Policy</a> |
-    <a href="terms.html">Terms & Conditions</a>
-  </p>
-</footer>
+<div class="grid" id="grid"></div>
 
 <script>
-const images = [
-  "IMAGE_URL_1",
-  "IMAGE_URL_2",
-  "IMAGE_URL_3"
-];
+fetch("data.json")
+.then(r=>r.json())
+.then(data=>{
+  const grid=document.getElementById("grid");
 
-const thumbs = document.getElementById('thumbnails');
-const viewer = document.getElementById('viewer');
-const viewerImg = document.getElementById('viewer-img');
-let index = 0;
-
-images.forEach((src,i)=>{
-  const img=document.createElement('img');
-  img.src=src;
-  img.onclick=()=>openViewer(i);
-  thumbs.appendChild(img);
+  data.series.forEach(serie=>{
+    serie.capitulos.forEach((cap, i)=>{
+      const card=document.createElement("div");
+      card.className="card";
+      card.innerHTML=`
+        <img src="${cap.portada}">
+        <div class="title">${serie.nombre} — ${cap.titulo}</div>
+      `;
+      card.onclick=()=>{
+        window.location.href=`viewer.html?serie=${serie.id}&cap=${i}`;
+      };
+      grid.appendChild(card);
+    });
+  });
 });
-
-function openViewer(i){
-  index=i;
-  viewer.style.display='flex';
-  viewerImg.src=images[index];
-  panzoom(viewerImg,{maxZoom:5,minZoom:0.5});
-}
-
-document.getElementById('close').onclick=()=>viewer.style.display='none';
-
-document.addEventListener('keydown',(e)=>{
-  if(viewer.style.display==='flex'){
-    if(e.key==='ArrowRight') change(1);
-    if(e.key==='ArrowLeft') change(-1);
-  }
-});
-
-function change(step){
-  index=(index+step+images.length)%images.length;
-  viewerImg.src=images[index];
-}
 </script>
 
 </body>
