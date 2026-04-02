@@ -3,83 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <title>Gallery</title>
+
 <style>
-body{
-  margin:0;
-  background:#0b0b0b;
-  font-family:Arial, Helvetica, sans-serif;
-  color:#fff;
-}
-
-header{
-  padding:20px 40px;
-  font-size:28px;
-  letter-spacing:2px;
-  border-bottom:1px solid #222;
-  background:#111;
-}
-
+body{margin:0;background:#0b0b0b;font-family:Arial;color:#fff;}
+header{padding:20px 40px;font-size:26px;border-bottom:1px solid #222;background:#111;}
 .grid{
-  column-count:4;
+  column-count:5;
   column-gap:15px;
   padding:30px 40px;
 }
-
 .card{
   break-inside:avoid;
   margin-bottom:15px;
-  cursor:pointer;
-  position:relative;
-  overflow:hidden;
   border-radius:10px;
+  overflow:hidden;
 }
-
 .card img{
   width:100%;
   display:block;
-  transition:0.4s;
+  transition:.3s;
 }
-
-.card:hover img{
-  transform:scale(1.05);
-  filter:brightness(0.8);
-}
-
-.card .title{
-  position:absolute;
-  bottom:0;
-  width:100%;
-  padding:10px;
-  background:linear-gradient(transparent, rgba(0,0,0,0.9));
-  font-size:14px;
+.card img:hover{
+  transform:scale(1.04);
 }
 </style>
 </head>
 <body>
 
-<header>GALLERY</header>
-
+<header>Gallery</header>
 <div class="grid" id="grid"></div>
 
 <script>
-fetch("data.json")
+fetch("gallery.json")
 .then(r=>r.json())
 .then(data=>{
   const grid=document.getElementById("grid");
 
-  data.series.forEach(serie=>{
-    serie.capitulos.forEach((cap, i)=>{
-      const card=document.createElement("div");
-      card.className="card";
-      card.innerHTML=`
-        <img src="${cap.portada}">
-        <div class="title">${serie.nombre} — ${cap.titulo}</div>
-      `;
-      card.onclick=()=>{
-        window.location.href=`viewer.html?serie=${serie.id}&cap=${i}`;
-      };
-      grid.appendChild(card);
-    });
+  data.imagenes.forEach(img=>{
+    const card=document.createElement("div");
+    card.className="card";
+    card.innerHTML=`<img src="${img.url}" alt="">`;
+    grid.appendChild(card);
   });
 });
 </script>
