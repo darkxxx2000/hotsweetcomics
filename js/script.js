@@ -1,7 +1,7 @@
 const franquiciasSection = document.getElementById('franquicias');
 const capitulosSection = document.getElementById('capitulos');
 
-fetch('data.json')
+fetch('data/data.json')
   .then(res => res.json())
   .then(data => {
     // Mostrar franquicias
