@@ -1,15 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Doujinshi - HOT SWEET COMICS</title>
-<link rel="stylesheet" href="estilos.css">
+
+<!-- CSS CORREGIDO -->
+<link rel="stylesheet" href="css/estilos.css">
+
+<style>
+body{
+  background:#0d0d0d;
+  color:#fff;
+  font-family: Arial, sans-serif;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fill,minmax(220px,1fr));
+  gap:25px;
+  padding:20px;
+}
+
+.card{
+  background:#111;
+  border-radius:15px;
+  overflow:hidden;
+  cursor:pointer;
+  transition:0.3s;
+  text-align:center;
+  border:2px solid #00ffff;
+  box-shadow: 0 0 10px #00ffff33;
+}
+
+.card:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 20px #ff00cc;
+}
+
+.card img{
+  width:100%;
+  height:300px; /* 🔥 TODAS IGUALES */
+  object-fit:cover;
+}
+
+.card p{
+  padding:10px;
+  font-weight:bold;
+}
+
+nav{
+  display:flex;
+  gap:15px;
+  justify-content:center;
+  margin:20px 0;
+}
+
+nav a{
+  color:#fff;
+  text-decoration:none;
+  padding:8px 15px;
+  border-radius:10px;
+  background:#111;
+  transition:0.3s;
+}
+
+nav a:hover{
+  background:#ff00cc;
+}
+</style>
+
 </head>
+
 <body>
 
 <header>
-  <h1>HOT SWEET COMICS</h1>
+  <h1 style="text-align:center;">HOT SWEET COMICS</h1>
+
   <nav>
     <a href="index.html">Home</a>
     <a href="doujinshi.html">Doujinshi</a>
@@ -27,42 +94,65 @@
 const params = new URLSearchParams(location.search);
 const serieID = params.get("serie");
 
-fetch("data.json")
-.then(r=>r.json())
-.then(data=>{
-  const grid=document.getElementById("grid");
+fetch("data/data.json") // ✅ CORREGIDO
+.then(res => res.json())
+.then(data => {
 
+  const grid = document.getElementById("grid");
+
+  // 🟢 SI NO HAY SERIE → MOSTRAR TODAS LAS SERIES
   if(!serieID){
-    // MOSTRAR SERIES
-    data.series.forEach(serie=>{
-      const div=document.createElement("div");
-      div.className="card";
-      div.innerHTML=`
-        <img src="${serie.portada}">
+
+    data.series.forEach(serie => {
+
+      const div = document.createElement("div");
+      div.className = "card";
+
+      div.innerHTML = `
+        <img src="${serie.portada}" alt="${serie.nombre}">
         <p>${serie.nombre}</p>
       `;
-      div.onclick=()=>{
-        location.href=`doujinshi.html?serie=${serie.id}`;
+
+      div.onclick = () => {
+        location.href = `doujinshi.html?serie=${serie.id}`;
       };
+
       grid.appendChild(div);
     });
 
-  }else{
-    // MOSTRAR CAPÍTULOS
-    const serie = data.series.find(s=>s.id===serieID);
-    serie.capitulos.forEach((cap,i)=>{
-      const div=document.createElement("div");
-      div.className="card";
-      div.innerHTML=`
-        <img src="${cap.portada}">
+  } else {
+
+    // 🔵 MOSTRAR CAPÍTULOS DE ESA SERIE
+    const serie = data.series.find(s => String(s.id) === String(serieID));
+
+    if(!serie){
+      grid.innerHTML = "<p style='text-align:center;'>Serie no encontrada</p>";
+      return;
+    }
+
+    serie.capitulos.forEach((cap, i) => {
+
+      const div = document.createElement("div");
+      div.className = "card";
+
+      div.innerHTML = `
+        <img src="${cap.portada}" alt="${cap.titulo}">
         <p>${cap.titulo}</p>
       `;
-      div.onclick=()=>{
-        location.href=`viewer.html?serie=${serieID}&cap=${i}`;
+
+      div.onclick = () => {
+        location.href = `viewer.html?serie=${serieID}&cap=${i}`;
       };
+
       grid.appendChild(div);
     });
   }
+
+})
+.catch(err => {
+  console.error("Error cargando JSON:", err);
+  document.getElementById("grid").innerHTML =
+    "<p style='text-align:center;'>Error cargando contenido</p>";
 });
 </script>
 
