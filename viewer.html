@@ -94,13 +94,13 @@ const capIndex = Number(params.get("cap"));
 let images = [];
 let current = 0;
 
-let viewer = document.getElementById("viewer");
-let bigImg = document.getElementById("bigImg");
-let grid = document.getElementById("thumbGrid");
+const viewer = document.getElementById("viewer");
+const bigImg = document.getElementById("bigImg");
+const grid = document.getElementById("thumbGrid");
 
 let pan = null;
 
-// 🔥 cargar data
+// 📦 cargar data
 fetch("data/data.json")
 .then(res => res.json())
 .then(data => {
@@ -113,38 +113,43 @@ fetch("data/data.json")
 
   images = cap.imagenes;
 
-  // thumbnails
-  images.forEach((src,i) => {
+  images.forEach((src, i) => {
     const img = document.createElement("img");
     img.src = src;
-
     img.onclick = () => openViewer(i);
-
     grid.appendChild(img);
   });
 
 });
 
-// 🔥 abrir viewer
+// 🔥 abrir viewer (CORREGIDO)
 function openViewer(index){
   current = index;
 
   viewer.style.display = "flex";
   bigImg.src = images[current];
 
-  // destruir pan anterior
-  if (pan) pan.destroy();
+  // destruir instancia anterior
+  if (pan) {
+    pan.destroy();
+    pan = null;
+  }
 
+  // reset zoom visual
+  bigImg.style.transform = "scale(1)";
+
+  // crear Panzoom limpio
   pan = Panzoom(bigImg, {
     maxScale: 5,
     minScale: 1
   });
 
-  // IMPORTANTE: evitar duplicar wheel listener
-  bigImg.parentElement.onwheel = pan.zoomWithWheel;
+  // FIX REAL: no duplicar wheel
+  const container = bigImg.parentElement;
+  container.onwheel = (e) => pan.zoomWithWheel(e);
 }
 
-// cerrar
+// cerrar viewer
 document.getElementById("closeBtn").onclick = () => {
   viewer.style.display = "none";
 };
@@ -154,16 +159,12 @@ document.addEventListener("keydown", e => {
 
   if (viewer.style.display !== "flex") return;
 
-  if (e.key === "ArrowRight") {
-    if (current < images.length - 1) {
-      openViewer(current + 1);
-    }
+  if (e.key === "ArrowRight" && current < images.length - 1) {
+    openViewer(current + 1);
   }
 
-  if (e.key === "ArrowLeft") {
-    if (current > 0) {
-      openViewer(current - 1);
-    }
+  if (e.key === "ArrowLeft" && current > 0) {
+    openViewer(current - 1);
   }
 
   if (e.key === "Escape") {
