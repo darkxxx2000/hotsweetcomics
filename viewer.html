@@ -5,11 +5,11 @@
 <title>Viewer - HOT SWEET COMICS</title>
 
 <link rel="stylesheet" href="css/estilos.css">
+
 <script src="https://cdn.jsdelivr.net/npm/@panzoom/panzoom@9.4.0/dist/panzoom.min.js"></script>
 
 <style>
-
-body {
+body{
   margin:0;
 }
 
@@ -29,8 +29,9 @@ body {
   transition: 0.3s;
 }
 
-#thumbGrid img:hover {
+#thumbGrid img:hover{
   transform: scale(1.05);
+  box-shadow: 0 0 10px #ff00c8;
 }
 
 /* VIEWER */
@@ -43,43 +44,25 @@ body {
   overflow: auto;
 }
 
-/* PAGE MODE */
-#pageMode {
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100%;
-}
-
-#bigImg {
+/* IMAGE */
+#viewer img {
   max-width: 90%;
   max-height: 90%;
   cursor: grab;
-}
-
-/* WEBTOON MODE */
-#webtoonMode {
-  display:none;
-  flex-direction: column;
-  align-items: center;
-}
-
-#webtoonMode img {
-  width: 100%;
-  max-width: 800px;
+  touch-action: none; /* 🔥 FIX ZOOM */
 }
 
 /* CONTROLES */
-#controls {
+#controls{
   position: fixed;
-  top: 10px;
-  left: 10px;
-  z-index: 10000;
+  top:10px;
+  left:10px;
+  z-index:10000;
   display:flex;
   gap:10px;
 }
 
-button {
+button{
   background:#ff00c8;
   border:none;
   color:white;
@@ -87,6 +70,13 @@ button {
   cursor:pointer;
 }
 
+/* WEBTOON */
+#webtoonContainer img{
+  width:90%;
+  margin:10px 0;
+}
+
+/* CLOSE */
 #closeBtn {
   position:absolute;
   top:20px;
@@ -95,7 +85,6 @@ button {
   color:#fff;
   cursor:pointer;
 }
-
 </style>
 </head>
 
@@ -114,23 +103,24 @@ button {
 
   <div id="closeBtn">&times;</div>
 
-  <!-- CONTROLES -->
   <div id="controls">
     <button onclick="zoomIn()">+</button>
     <button onclick="zoomOut()">-</button>
     <button onclick="resetZoom()">Reset</button>
-    <button onclick="toggleMode()">Mode</button>
+    <button onclick="toggleWebtoon()">Webtoon</button>
   </div>
 
-  <!-- PAGE MODE -->
-  <div id="pageMode">
+  <div style="display:flex;justify-content:center;align-items:center;height:100%;">
     <img id="bigImg">
   </div>
 
-  <!-- WEBTOON MODE -->
-  <div id="webtoonMode"></div>
-
 </div>
+
+<footer style="text-align:center;margin:40px 0;">
+  <a href="usage.html">Usage</a> |
+  <a href="privacy.html">Privacy Policy</a> |
+  <a href="terms.html">Terms & Conditions</a>
+</footer>
 
 <script>
 
@@ -140,13 +130,11 @@ const capIndex = Number(params.get("cap"));
 
 let images = [];
 let current = 0;
-
-let mode = "page"; // page | webtoon
 let pan = null;
+let webtoonMode = false;
 
 const viewer = document.getElementById("viewer");
 const bigImg = document.getElementById("bigImg");
-const webtoon = document.getElementById("webtoonMode");
 const grid = document.getElementById("thumbGrid");
 
 // LOAD DATA
@@ -176,53 +164,67 @@ function openViewer(index){
   current = index;
   viewer.style.display = "block";
 
-  if (mode === "page") {
-    showPage(index);
-  } else {
-    showWebtoon();
+  if(webtoonMode) return;
+
+  bigImg.style.display = "block";
+  bigImg.src = images[current];
+
+  if (pan) {
+    pan.destroy();
+    pan = null;
   }
-}
 
-// PAGE MODE
-function showPage(index){
-  webtoon.style.display = "none";
-  document.getElementById("pageMode").style.display = "flex";
-
-  bigImg.src = images[index];
-
-  if (pan) pan.destroy();
+  bigImg.style.transform = "scale(1)";
 
   pan = Panzoom(bigImg, {
     maxScale: 5,
     minScale: 1
   });
 
-  bigImg.parentElement.onwheel = e => pan.zoomWithWheel(e);
+  const container = bigImg.parentElement;
+
+  // 🔥 FIX REAL DEL ZOOM
+  container.addEventListener("wheel", function(e){
+    e.preventDefault();
+    pan.zoomWithWheel(e);
+  }, { passive:false });
 }
 
-// WEBTOON MODE
-function showWebtoon(){
-  document.getElementById("pageMode").style.display = "none";
-  webtoon.style.display = "flex";
-
-  webtoon.innerHTML = "";
-
-  images.forEach(src => {
-    const img = document.createElement("img");
-    img.src = src;
-    webtoon.appendChild(img);
-  });
-}
-
-// ZOOM CONTROLS
+// ZOOM BUTTONS
 function zoomIn(){ if(pan) pan.zoomIn(); }
 function zoomOut(){ if(pan) pan.zoomOut(); }
 function resetZoom(){ if(pan) pan.reset(); }
 
-// SWITCH MODE
-function toggleMode(){
-  mode = (mode === "page") ? "webtoon" : "page";
-  openViewer(current);
+// WEBTOON MODE
+function toggleWebtoon(){
+  webtoonMode = !webtoonMode;
+
+  if(webtoonMode){
+
+    bigImg.style.display = "none";
+
+    let cont = document.getElementById("webtoonContainer");
+    if(cont) cont.remove();
+
+    cont = document.createElement("div");
+    cont.id = "webtoonContainer";
+    cont.style.textAlign = "center";
+
+    images.forEach(src=>{
+      const img = document.createElement("img");
+      img.src = src;
+      cont.appendChild(img);
+    });
+
+    viewer.appendChild(cont);
+
+  } else {
+
+    const cont = document.getElementById("webtoonContainer");
+    if(cont) cont.remove();
+
+    openViewer(current);
+  }
 }
 
 // CLOSE
@@ -235,7 +237,7 @@ document.addEventListener("keydown", e => {
 
   if (viewer.style.display !== "block") return;
 
-  if (mode === "page") {
+  if (!webtoonMode){
 
     if (e.key === "ArrowRight" && current < images.length-1) {
       openViewer(current + 1);
@@ -244,6 +246,7 @@ document.addEventListener("keydown", e => {
     if (e.key === "ArrowLeft" && current > 0) {
       openViewer(current - 1);
     }
+
   }
 
   if (e.key === "Escape") {
