@@ -5,10 +5,15 @@
 <title>Viewer - HOT SWEET COMICS</title>
 
 <link rel="stylesheet" href="css/estilos.css">
-
 <script src="https://cdn.jsdelivr.net/npm/@panzoom/panzoom@9.4.0/dist/panzoom.min.js"></script>
 
 <style>
+
+body {
+  margin:0;
+}
+
+/* GRID */
 #thumbGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill,minmax(110px,1fr));
@@ -26,23 +31,60 @@
 
 #thumbGrid img:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 10px #ff00c8;
 }
 
+/* VIEWER */
 #viewer {
   display: none;
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.95);
-  justify-content: center;
-  align-items: center;
   z-index: 9999;
+  overflow: auto;
 }
 
-#viewer img {
+/* PAGE MODE */
+#pageMode {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100%;
+}
+
+#bigImg {
   max-width: 90%;
   max-height: 90%;
   cursor: grab;
+}
+
+/* WEBTOON MODE */
+#webtoonMode {
+  display:none;
+  flex-direction: column;
+  align-items: center;
+}
+
+#webtoonMode img {
+  width: 100%;
+  max-width: 800px;
+}
+
+/* CONTROLES */
+#controls {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 10000;
+  display:flex;
+  gap:10px;
+}
+
+button {
+  background:#ff00c8;
+  border:none;
+  color:white;
+  padding:8px 12px;
+  cursor:pointer;
 }
 
 #closeBtn {
@@ -53,6 +95,7 @@
   color:#fff;
   cursor:pointer;
 }
+
 </style>
 </head>
 
@@ -60,33 +103,37 @@
 
 <header>
   <h1>HOT SWEET COMICS</h1>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="doujinshi.html">Doujinshi</a>
-    <a href="gallery.html">Gallery</a>
-    <a href="shortcomics.html">Short Comics</a>
-    <a href="post.html">Post</a>
-    <a href="ai.html">AI</a>
-    <a href="contact.html">Contact</a>
-  </nav>
 </header>
 
 <main>
   <section id="thumbGrid"></section>
 </main>
 
+<!-- VIEWER -->
 <div id="viewer">
+
   <div id="closeBtn">&times;</div>
-  <img id="bigImg">
+
+  <!-- CONTROLES -->
+  <div id="controls">
+    <button onclick="zoomIn()">+</button>
+    <button onclick="zoomOut()">-</button>
+    <button onclick="resetZoom()">Reset</button>
+    <button onclick="toggleMode()">Mode</button>
+  </div>
+
+  <!-- PAGE MODE -->
+  <div id="pageMode">
+    <img id="bigImg">
+  </div>
+
+  <!-- WEBTOON MODE -->
+  <div id="webtoonMode"></div>
+
 </div>
 
-<footer style="text-align:center;margin:40px 0;">
-  <a href="usage.html">Usage</a> |
-  <a href="privacy.html">Privacy Policy</a> |
-  <a href="terms.html">Terms & Conditions</a>
-</footer>
-
 <script>
+
 const params = new URLSearchParams(location.search);
 const serieID = params.get("serie");
 const capIndex = Number(params.get("cap"));
@@ -94,13 +141,15 @@ const capIndex = Number(params.get("cap"));
 let images = [];
 let current = 0;
 
-const viewer = document.getElementById("viewer");
-const bigImg = document.getElementById("bigImg");
-const grid = document.getElementById("thumbGrid");
-
+let mode = "page"; // page | webtoon
 let pan = null;
 
-// 📦 cargar data
+const viewer = document.getElementById("viewer");
+const bigImg = document.getElementById("bigImg");
+const webtoon = document.getElementById("webtoonMode");
+const grid = document.getElementById("thumbGrid");
+
+// LOAD DATA
 fetch("data/data.json")
 .then(res => res.json())
 .then(data => {
@@ -113,7 +162,7 @@ fetch("data/data.json")
 
   images = cap.imagenes;
 
-  images.forEach((src, i) => {
+  images.forEach((src,i) => {
     const img = document.createElement("img");
     img.src = src;
     img.onclick = () => openViewer(i);
@@ -122,49 +171,79 @@ fetch("data/data.json")
 
 });
 
-// 🔥 abrir viewer (CORREGIDO)
+// OPEN VIEWER
 function openViewer(index){
   current = index;
+  viewer.style.display = "block";
 
-  viewer.style.display = "flex";
-  bigImg.src = images[current];
-
-  // destruir instancia anterior
-  if (pan) {
-    pan.destroy();
-    pan = null;
+  if (mode === "page") {
+    showPage(index);
+  } else {
+    showWebtoon();
   }
+}
 
-  // reset zoom visual
-  bigImg.style.transform = "scale(1)";
+// PAGE MODE
+function showPage(index){
+  webtoon.style.display = "none";
+  document.getElementById("pageMode").style.display = "flex";
 
-  // crear Panzoom limpio
+  bigImg.src = images[index];
+
+  if (pan) pan.destroy();
+
   pan = Panzoom(bigImg, {
     maxScale: 5,
     minScale: 1
   });
 
-  // FIX REAL: no duplicar wheel
-  const container = bigImg.parentElement;
-  container.onwheel = (e) => pan.zoomWithWheel(e);
+  bigImg.parentElement.onwheel = e => pan.zoomWithWheel(e);
 }
 
-// cerrar viewer
+// WEBTOON MODE
+function showWebtoon(){
+  document.getElementById("pageMode").style.display = "none";
+  webtoon.style.display = "flex";
+
+  webtoon.innerHTML = "";
+
+  images.forEach(src => {
+    const img = document.createElement("img");
+    img.src = src;
+    webtoon.appendChild(img);
+  });
+}
+
+// ZOOM CONTROLS
+function zoomIn(){ if(pan) pan.zoomIn(); }
+function zoomOut(){ if(pan) pan.zoomOut(); }
+function resetZoom(){ if(pan) pan.reset(); }
+
+// SWITCH MODE
+function toggleMode(){
+  mode = (mode === "page") ? "webtoon" : "page";
+  openViewer(current);
+}
+
+// CLOSE
 document.getElementById("closeBtn").onclick = () => {
   viewer.style.display = "none";
 };
 
-// teclado
+// KEYBOARD
 document.addEventListener("keydown", e => {
 
-  if (viewer.style.display !== "flex") return;
+  if (viewer.style.display !== "block") return;
 
-  if (e.key === "ArrowRight" && current < images.length - 1) {
-    openViewer(current + 1);
-  }
+  if (mode === "page") {
 
-  if (e.key === "ArrowLeft" && current > 0) {
-    openViewer(current - 1);
+    if (e.key === "ArrowRight" && current < images.length-1) {
+      openViewer(current + 1);
+    }
+
+    if (e.key === "ArrowLeft" && current > 0) {
+      openViewer(current - 1);
+    }
   }
 
   if (e.key === "Escape") {
@@ -172,6 +251,7 @@ document.addEventListener("keydown", e => {
   }
 
 });
+
 </script>
 
 </body>
