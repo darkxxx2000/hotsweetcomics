@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>Viewer - HOT SWEET COMICS</title>
 
-<!-- ✅ CSS CORREGIDO -->
 <link rel="stylesheet" href="css/estilos.css">
 
 <script src="https://cdn.jsdelivr.net/npm/@panzoom/panzoom@9.4.0/dist/panzoom.min.js"></script>
@@ -25,7 +24,7 @@
   transition: 0.3s;
 }
 
-#thumbGrid img:hover{
+#thumbGrid img:hover {
   transform: scale(1.05);
   box-shadow: 0 0 10px #ff00c8;
 }
@@ -92,72 +91,85 @@ const params = new URLSearchParams(location.search);
 const serieID = params.get("serie");
 const capIndex = Number(params.get("cap"));
 
-fetch("data/data.json") // ✅ ARREGLADO
+let images = [];
+let current = 0;
+
+let viewer = document.getElementById("viewer");
+let bigImg = document.getElementById("bigImg");
+let grid = document.getElementById("thumbGrid");
+
+let pan = null;
+
+// 🔥 cargar data
+fetch("data/data.json")
 .then(res => res.json())
 .then(data => {
 
-  const serie = data.series.find(s => String(s.id) === String(serieID)); // ✅ ARREGLADO
+  const serie = data.series.find(s => String(s.id) === String(serieID));
   if (!serie) return;
 
   const cap = serie.capitulos[capIndex];
   if (!cap) return;
 
-  const images = cap.imagenes;
-  const grid = document.getElementById("thumbGrid");
-  const viewer = document.getElementById("viewer");
-  const bigImg = document.getElementById("bigImg");
+  images = cap.imagenes;
 
-  let current = 0;
-  let pan;
-
+  // thumbnails
   images.forEach((src,i) => {
     const img = document.createElement("img");
     img.src = src;
 
-    img.onclick = () => {
-      current = i;
-      openViewer(src);
-    };
+    img.onclick = () => openViewer(i);
 
     grid.appendChild(img);
   });
 
-  function openViewer(src){
-    bigImg.src = src;
-    viewer.style.display = "flex";
+});
 
-    if (pan) pan.destroy();
-    pan = Panzoom(bigImg,{maxScale:5,minScale:1});
+// 🔥 abrir viewer
+function openViewer(index){
+  current = index;
 
-    bigImg.parentElement.addEventListener('wheel', pan.zoomWithWheel);
-  }
+  viewer.style.display = "flex";
+  bigImg.src = images[current];
 
-  document.getElementById("closeBtn").onclick = () => {
-    viewer.style.display = "none";
-  };
+  // destruir pan anterior
+  if (pan) pan.destroy();
 
-  document.addEventListener("keydown", e => {
-    if (viewer.style.display === "flex") {
-
-      if (e.key === "ArrowRight" && current < images.length-1) {
-        current++;
-        openViewer(images[current]);
-      }
-
-      if (e.key === "ArrowLeft" && current > 0) {
-        current--;
-        openViewer(images[current]);
-      }
-
-      if (e.key === "Escape") {
-        viewer.style.display = "none";
-      }
-    }
+  pan = Panzoom(bigImg, {
+    maxScale: 5,
+    minScale: 1
   });
 
-})
-.catch(err => {
-  console.error("Error cargando JSON:", err);
+  // IMPORTANTE: evitar duplicar wheel listener
+  bigImg.parentElement.onwheel = pan.zoomWithWheel;
+}
+
+// cerrar
+document.getElementById("closeBtn").onclick = () => {
+  viewer.style.display = "none";
+};
+
+// teclado
+document.addEventListener("keydown", e => {
+
+  if (viewer.style.display !== "flex") return;
+
+  if (e.key === "ArrowRight") {
+    if (current < images.length - 1) {
+      openViewer(current + 1);
+    }
+  }
+
+  if (e.key === "ArrowLeft") {
+    if (current > 0) {
+      openViewer(current - 1);
+    }
+  }
+
+  if (e.key === "Escape") {
+    viewer.style.display = "none";
+  }
+
 });
 </script>
 
