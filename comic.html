@@ -121,7 +121,7 @@ const capitulosContainer = document.getElementById('capitulos');
 const params = new URLSearchParams(window.location.search);
 const serieId = params.get('id');
 
-fetch('data.json')
+fetch('data/data.json')
   .then(res => res.json())
   .then(data => {
     const serie = data.series.find(s => s.id === serieId);
