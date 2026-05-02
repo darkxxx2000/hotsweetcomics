@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <title>Viewer - HOT SWEET COMICS</title>
-<link rel="stylesheet" href="estilos.css">
+
+<!-- ✅ CSS CORREGIDO -->
+<link rel="stylesheet" href="css/estilos.css">
+
 <script src="https://cdn.jsdelivr.net/npm/@panzoom/panzoom@9.4.0/dist/panzoom.min.js"></script>
 
 <style>
@@ -13,12 +16,20 @@
   gap: 10px;
   padding: 30px;
 }
+
 #thumbGrid img {
   width: 100%;
   cursor: pointer;
   border-radius: 8px;
   border: 2px solid #ff00c8;
+  transition: 0.3s;
 }
+
+#thumbGrid img:hover{
+  transform: scale(1.05);
+  box-shadow: 0 0 10px #ff00c8;
+}
+
 #viewer {
   display: none;
   position: fixed;
@@ -28,10 +39,24 @@
   align-items: center;
   z-index: 9999;
 }
-#viewer img { max-width: 90%; max-height: 90%; cursor: grab; }
-#closeBtn { position:absolute; top:20px; right:30px; font-size:40px; color:#fff; cursor:pointer;}
+
+#viewer img {
+  max-width: 90%;
+  max-height: 90%;
+  cursor: grab;
+}
+
+#closeBtn {
+  position:absolute;
+  top:20px;
+  right:30px;
+  font-size:40px;
+  color:#fff;
+  cursor:pointer;
+}
 </style>
 </head>
+
 <body>
 
 <header>
@@ -67,49 +92,73 @@ const params = new URLSearchParams(location.search);
 const serieID = params.get("serie");
 const capIndex = Number(params.get("cap"));
 
-fetch("data.json")
-  .then(res => res.json())
-  .then(data => {
-    const serie = data.series.find(s => s.id === serieID);
-    if (!serie) return;
-    const cap = serie.capitulos[capIndex];
-    if (!cap) return;
+fetch("data/data.json") // ✅ ARREGLADO
+.then(res => res.json())
+.then(data => {
 
-    const images = cap.imagenes;
-    const grid = document.getElementById("thumbGrid");
-    const viewer = document.getElementById("viewer");
-    const bigImg = document.getElementById("bigImg");
-    let current = 0;
-    let pan;
+  const serie = data.series.find(s => String(s.id) === String(serieID)); // ✅ ARREGLADO
+  if (!serie) return;
 
-    images.forEach((src,i) => {
-      const img = document.createElement("img");
-      img.src = src;
-      img.onclick = () => {
-        current = i;
-        bigImg.src = src;
-        viewer.style.display = "flex";
-        if (pan) pan.destroy();
-        pan = Panzoom(bigImg,{maxScale:5,minScale:1});
-        bigImg.parentElement.addEventListener('wheel', pan.zoomWithWheel);
-      };
-      grid.appendChild(img);
-    });
+  const cap = serie.capitulos[capIndex];
+  if (!cap) return;
 
-    document.getElementById("closeBtn").onclick = () => viewer.style.display = "none";
-    document.addEventListener("keydown", e => {
-      if (viewer.style.display === "flex") {
-        if (e.key === "ArrowRight" && current < images.length-1) {
-          current++;
-          bigImg.src = images[current];
-        }
-        if (e.key === "ArrowLeft" && current > 0) {
-          current--;
-          bigImg.src = images[current];
-        }
-      }
-    });
+  const images = cap.imagenes;
+  const grid = document.getElementById("thumbGrid");
+  const viewer = document.getElementById("viewer");
+  const bigImg = document.getElementById("bigImg");
+
+  let current = 0;
+  let pan;
+
+  images.forEach((src,i) => {
+    const img = document.createElement("img");
+    img.src = src;
+
+    img.onclick = () => {
+      current = i;
+      openViewer(src);
+    };
+
+    grid.appendChild(img);
   });
+
+  function openViewer(src){
+    bigImg.src = src;
+    viewer.style.display = "flex";
+
+    if (pan) pan.destroy();
+    pan = Panzoom(bigImg,{maxScale:5,minScale:1});
+
+    bigImg.parentElement.addEventListener('wheel', pan.zoomWithWheel);
+  }
+
+  document.getElementById("closeBtn").onclick = () => {
+    viewer.style.display = "none";
+  };
+
+  document.addEventListener("keydown", e => {
+    if (viewer.style.display === "flex") {
+
+      if (e.key === "ArrowRight" && current < images.length-1) {
+        current++;
+        openViewer(images[current]);
+      }
+
+      if (e.key === "ArrowLeft" && current > 0) {
+        current--;
+        openViewer(images[current]);
+      }
+
+      if (e.key === "Escape") {
+        viewer.style.display = "none";
+      }
+    }
+  });
+
+})
+.catch(err => {
+  console.error("Error cargando JSON:", err);
+});
 </script>
 
 </body>
