@@ -12,7 +12,28 @@ body{
   background: linear-gradient(135deg,#0f0c1a,#1a1840,#12122a);
 }
 
-/* MINIATURAS */
+/* BOTONES */
+#controls{
+  text-align:center;
+  margin:20px;
+}
+
+.ctrl-btn{
+  padding:10px 20px;
+  margin:5px;
+  border:none;
+  border-radius:10px;
+  background:#ff0080;
+  color:#fff;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.ctrl-btn:hover{
+  background:#e60073;
+}
+
+/* GRID MINIATURAS */
 #thumbGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill,minmax(110px,1fr));
@@ -25,32 +46,36 @@ body{
   cursor: pointer;
   border-radius: 8px;
   border: 2px solid #ff00c8;
-  transition: 0.3s;
 }
 
-#thumbGrid img:hover{
-  transform: scale(1.05);
-  box-shadow: 0 0 10px #ff00c8;
+/* WEBTOON */
+#webtoon {
+  display:none;
+  max-width:900px;
+  margin:auto;
 }
 
-/* VIEWER */
+#webtoon img{
+  width:100%;
+  margin-bottom:10px;
+}
+
+/* VIEWER NORMAL */
 #viewer {
-  display: none;
-  position: fixed;
-  inset: 0;
+  display:none;
+  position:fixed;
+  inset:0;
   background: rgba(0,0,0,0.95);
   backdrop-filter: blur(6px);
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
 }
 
 #viewer img {
-  max-width: 90%;
-  max-height: 90%;
+  max-width:90%;
+  max-height:90%;
   cursor: grab;
-  border-radius: 12px;
-  box-shadow: 0 0 25px #000;
 }
 
 #closeBtn {
@@ -60,7 +85,6 @@ body{
   font-size:40px;
   color:#fff;
   cursor:pointer;
-  z-index:10000;
 }
 </style>
 </head>
@@ -80,20 +104,20 @@ body{
   </nav>
 </header>
 
+<div id="controls">
+  <button class="ctrl-btn" id="btnNormal">Normal</button>
+  <button class="ctrl-btn" id="btnWebtoon">Webtoon</button>
+</div>
+
 <main>
   <section id="thumbGrid"></section>
+  <section id="webtoon"></section>
 </main>
 
 <div id="viewer">
   <div id="closeBtn">&times;</div>
   <img id="bigImg">
 </div>
-
-<footer style="text-align:center;margin:40px 0;">
-  <a href="#">Usage</a> |
-  <a href="#">Privacy Policy</a> |
-  <a href="#">Terms & Conditions</a>
-</footer>
 
 <script>
 const params = new URLSearchParams(location.search);
@@ -113,6 +137,7 @@ fetch("data/data.json")
   const images = cap.imagenes;
 
   const grid = document.getElementById("thumbGrid");
+  const webtoon = document.getElementById("webtoon");
   const viewer = document.getElementById("viewer");
   const bigImg = document.getElementById("bigImg");
 
@@ -120,39 +145,58 @@ fetch("data/data.json")
   let pan = null;
   let clickStart = 0;
 
-  // MINIATURAS
-  images.forEach((src,i) => {
-    const img = document.createElement("img");
-    img.src = src;
+  // ===== MINIATURAS =====
+  images.forEach((src,i)=>{
+    const img=document.createElement("img");
+    img.src=src;
 
-    img.onclick = () => {
-      current = i;
+    img.onclick=()=>{
+      current=i;
       openViewer();
     };
 
     grid.appendChild(img);
   });
 
+  // ===== WEBTOON =====
+  images.forEach(src=>{
+    const img=document.createElement("img");
+    img.src=src;
+    webtoon.appendChild(img);
+  });
+
+  // ===== MODOS =====
+  document.getElementById("btnWebtoon").onclick=()=>{
+    grid.style.display="none";
+    webtoon.style.display="block";
+  };
+
+  document.getElementById("btnNormal").onclick=()=>{
+    grid.style.display="grid";
+    webtoon.style.display="none";
+  };
+
+  // ===== VIEWER =====
   function openViewer(){
     bigImg.src = images[current];
     viewer.style.display = "flex";
 
     if (pan) pan.destroy();
 
-    pan = Panzoom(bigImg, {
+    pan = Panzoom(bigImg,{
       maxScale:6,
       minScale:1
     });
 
-    // ZOOM CON RUEDA
-    viewer.onwheel = (e) => {
+    // 🔥 FIX DEFINITIVO ZOOM RUEDA
+    viewer.addEventListener("wheel", (e)=>{
       e.preventDefault();
       pan.zoomWithWheel(e);
-    };
+    }, { passive:false });
   }
 
   function next(){
-    if(current < images.length - 1){
+    if(current < images.length-1){
       current++;
       openViewer();
     }
@@ -166,36 +210,28 @@ fetch("data/data.json")
   }
 
   // CLICK vs DRAG
-  bigImg.addEventListener("mousedown", () => {
-    clickStart = Date.now();
-  });
+  bigImg.addEventListener("mousedown",()=> clickStart=Date.now());
 
-  bigImg.addEventListener("mouseup", () => {
-    const diff = Date.now() - clickStart;
-    if(diff < 200){
+  bigImg.addEventListener("mouseup",()=>{
+    if(Date.now()-clickStart < 200){
       next();
     }
   });
 
   // TECLADO
-  document.addEventListener("keydown", e => {
-    if(viewer.style.display === "flex"){
-
-      if(e.key === "ArrowRight") next();
-      if(e.key === "ArrowLeft") prev();
-      if(e.key === "Escape") viewer.style.display = "none";
-
+  document.addEventListener("keydown", e=>{
+    if(viewer.style.display==="flex"){
+      if(e.key==="ArrowRight") next();
+      if(e.key==="ArrowLeft") prev();
+      if(e.key==="Escape") viewer.style.display="none";
     }
   });
 
   // CERRAR
-  document.getElementById("closeBtn").onclick = () => {
-    viewer.style.display = "none";
+  document.getElementById("closeBtn").onclick=()=>{
+    viewer.style.display="none";
   };
 
-})
-.catch(err => {
-  console.error("Error cargando JSON:", err);
 });
 </script>
 
