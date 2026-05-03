@@ -5,15 +5,14 @@
 <title>Viewer - HOT SWEET COMICS</title>
 
 <link rel="stylesheet" href="css/estilos.css">
-
 <script src="https://cdn.jsdelivr.net/npm/@panzoom/panzoom@9.4.0/dist/panzoom.min.js"></script>
 
 <style>
 body{
-  margin:0;
+  background: linear-gradient(135deg,#0f0c1a,#1a1840,#12122a);
 }
 
-/* GRID */
+/* MINIATURAS */
 #thumbGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill,minmax(110px,1fr));
@@ -40,43 +39,20 @@ body{
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.95);
+  backdrop-filter: blur(6px);
+  justify-content: center;
+  align-items: center;
   z-index: 9999;
-  overflow: auto;
 }
 
-/* IMAGE */
 #viewer img {
   max-width: 90%;
   max-height: 90%;
   cursor: grab;
-  touch-action: none; /* 🔥 FIX ZOOM */
+  border-radius: 12px;
+  box-shadow: 0 0 25px #000;
 }
 
-/* CONTROLES */
-#controls{
-  position: fixed;
-  top:10px;
-  left:10px;
-  z-index:10000;
-  display:flex;
-  gap:10px;
-}
-
-button{
-  background:#ff00c8;
-  border:none;
-  color:white;
-  padding:8px 12px;
-  cursor:pointer;
-}
-
-/* WEBTOON */
-#webtoonContainer img{
-  width:90%;
-  margin:10px 0;
-}
-
-/* CLOSE */
 #closeBtn {
   position:absolute;
   top:20px;
@@ -84,6 +60,7 @@ button{
   font-size:40px;
   color:#fff;
   cursor:pointer;
+  z-index:10000;
 }
 </style>
 </head>
@@ -92,52 +69,37 @@ button{
 
 <header>
   <h1>HOT SWEET COMICS</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="doujinshi.html">Doujinshi</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="shortcomics.html">Short Comics</a>
+    <a href="post.html">Post</a>
+    <a href="ai.html">AI</a>
+    <a href="contact.html">Contact</a>
+  </nav>
 </header>
 
 <main>
   <section id="thumbGrid"></section>
 </main>
 
-<!-- VIEWER -->
 <div id="viewer">
-
   <div id="closeBtn">&times;</div>
-
-  <div id="controls">
-    <button onclick="zoomIn()">+</button>
-    <button onclick="zoomOut()">-</button>
-    <button onclick="resetZoom()">Reset</button>
-    <button onclick="toggleWebtoon()">Webtoon</button>
-  </div>
-
-  <div style="display:flex;justify-content:center;align-items:center;height:100%;">
-    <img id="bigImg">
-  </div>
-
+  <img id="bigImg">
 </div>
 
 <footer style="text-align:center;margin:40px 0;">
-  <a href="usage.html">Usage</a> |
-  <a href="privacy.html">Privacy Policy</a> |
-  <a href="terms.html">Terms & Conditions</a>
+  <a href="#">Usage</a> |
+  <a href="#">Privacy Policy</a> |
+  <a href="#">Terms & Conditions</a>
 </footer>
 
 <script>
-
 const params = new URLSearchParams(location.search);
 const serieID = params.get("serie");
 const capIndex = Number(params.get("cap"));
 
-let images = [];
-let current = 0;
-let pan = null;
-let webtoonMode = false;
-
-const viewer = document.getElementById("viewer");
-const bigImg = document.getElementById("bigImg");
-const grid = document.getElementById("thumbGrid");
-
-// LOAD DATA
 fetch("data/data.json")
 .then(res => res.json())
 .then(data => {
@@ -148,113 +110,93 @@ fetch("data/data.json")
   const cap = serie.capitulos[capIndex];
   if (!cap) return;
 
-  images = cap.imagenes;
+  const images = cap.imagenes;
 
+  const grid = document.getElementById("thumbGrid");
+  const viewer = document.getElementById("viewer");
+  const bigImg = document.getElementById("bigImg");
+
+  let current = 0;
+  let pan = null;
+  let clickStart = 0;
+
+  // MINIATURAS
   images.forEach((src,i) => {
     const img = document.createElement("img");
     img.src = src;
-    img.onclick = () => openViewer(i);
+
+    img.onclick = () => {
+      current = i;
+      openViewer();
+    };
+
     grid.appendChild(img);
   });
 
-});
+  function openViewer(){
+    bigImg.src = images[current];
+    viewer.style.display = "flex";
 
-// OPEN VIEWER
-function openViewer(index){
-  current = index;
-  viewer.style.display = "block";
+    if (pan) pan.destroy();
 
-  if(webtoonMode) return;
-
-  bigImg.style.display = "block";
-  bigImg.src = images[current];
-
-  if (pan) {
-    pan.destroy();
-    pan = null;
-  }
-
-  bigImg.style.transform = "scale(1)";
-
-  pan = Panzoom(bigImg, {
-    maxScale: 5,
-    minScale: 1
-  });
-
-  const container = bigImg.parentElement;
-
-  // 🔥 FIX REAL DEL ZOOM
-  container.addEventListener("wheel", function(e){
-    e.preventDefault();
-    pan.zoomWithWheel(e);
-  }, { passive:false });
-}
-
-// ZOOM BUTTONS
-function zoomIn(){ if(pan) pan.zoomIn(); }
-function zoomOut(){ if(pan) pan.zoomOut(); }
-function resetZoom(){ if(pan) pan.reset(); }
-
-// WEBTOON MODE
-function toggleWebtoon(){
-  webtoonMode = !webtoonMode;
-
-  if(webtoonMode){
-
-    bigImg.style.display = "none";
-
-    let cont = document.getElementById("webtoonContainer");
-    if(cont) cont.remove();
-
-    cont = document.createElement("div");
-    cont.id = "webtoonContainer";
-    cont.style.textAlign = "center";
-
-    images.forEach(src=>{
-      const img = document.createElement("img");
-      img.src = src;
-      cont.appendChild(img);
+    pan = Panzoom(bigImg, {
+      maxScale:6,
+      minScale:1
     });
 
-    viewer.appendChild(cont);
-
-  } else {
-
-    const cont = document.getElementById("webtoonContainer");
-    if(cont) cont.remove();
-
-    openViewer(current);
-  }
-}
-
-// CLOSE
-document.getElementById("closeBtn").onclick = () => {
-  viewer.style.display = "none";
-};
-
-// KEYBOARD
-document.addEventListener("keydown", e => {
-
-  if (viewer.style.display !== "block") return;
-
-  if (!webtoonMode){
-
-    if (e.key === "ArrowRight" && current < images.length-1) {
-      openViewer(current + 1);
-    }
-
-    if (e.key === "ArrowLeft" && current > 0) {
-      openViewer(current - 1);
-    }
-
+    // ZOOM CON RUEDA
+    viewer.onwheel = (e) => {
+      e.preventDefault();
+      pan.zoomWithWheel(e);
+    };
   }
 
-  if (e.key === "Escape") {
+  function next(){
+    if(current < images.length - 1){
+      current++;
+      openViewer();
+    }
+  }
+
+  function prev(){
+    if(current > 0){
+      current--;
+      openViewer();
+    }
+  }
+
+  // CLICK vs DRAG
+  bigImg.addEventListener("mousedown", () => {
+    clickStart = Date.now();
+  });
+
+  bigImg.addEventListener("mouseup", () => {
+    const diff = Date.now() - clickStart;
+    if(diff < 200){
+      next();
+    }
+  });
+
+  // TECLADO
+  document.addEventListener("keydown", e => {
+    if(viewer.style.display === "flex"){
+
+      if(e.key === "ArrowRight") next();
+      if(e.key === "ArrowLeft") prev();
+      if(e.key === "Escape") viewer.style.display = "none";
+
+    }
+  });
+
+  // CERRAR
+  document.getElementById("closeBtn").onclick = () => {
     viewer.style.display = "none";
-  }
+  };
 
+})
+.catch(err => {
+  console.error("Error cargando JSON:", err);
 });
-
 </script>
 
 </body>
