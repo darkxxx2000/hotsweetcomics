@@ -160,3 +160,25 @@ footer {
   color: rgba(255,255,255,0.7);
   margin-top:40px;
 }
+@keyframes glowWebtoon {
+  0% {
+    box-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff;
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff;
+    transform: scale(1.08);
+  }
+  100% {
+    box-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff;
+    transform: scale(1);
+  }
+}
+
+#btnWebtoon {
+  background: linear-gradient(45deg,#00ffff,#00bfff);
+  color:#000;
+  font-weight:700;
+  animation: glowWebtoon 1.2s infinite;
+  text-shadow: 0 0 5px #fff, 0 0 10px #00ffff;
+}
