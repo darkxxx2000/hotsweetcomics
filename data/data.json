@@ -172,8 +172,26 @@
         },
         {
           "titulo": "Capítulo 7",
-          "portada": "https://example.com/cap7_portada.jpg",
-          "imagenes": ["https://example.com/cap7_pagina1.jpg", "https://example.com/cap7_pagina2.jpg"]
+          "portada": "https://ah-img.luscious.net/KOKOMIEL/376624/pag0_01EC5HJK9NRHRXQ5CX7J6TRTPQ.1680x0.jpg",
+          "imagenes": [
+            "https://ah-img.luscious.net/KOKOMIEL/376624/pag0_01EC5HJK9NRHRXQ5CX7J6TRTPQ.1680x0.jpg", 
+            "https://ah-img.luscious.net/KOKOMIEL/376624/pag1_01EC5HJRQ00E3WE4QFHWDN7NYR.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/376624/pag2_01EC5HJWN7WTTGT3EW1EX5Q2W8.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/376624/pag3_01EC5HK0E567XNG8APW7YAR3HD.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/376624/pag4_01EC5HK3WSPJNYFVEC76VTVCBC.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/376624/pag5_01EC5HK6Y0H45290T9F75E4E2X.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/376624/pag6_01EC5HKBE8XC5BVF9KB50H145B.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/376624/pag7_01EC5HKGKCJEF69Q5Y69J6D6JJ.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/376624/pag8_01EC5HKPXPNZD5P6MRJHB20XDC.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/376624/pag9_01EC5HKTGV08QQQ3Q8DFEFXP72.1680x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/376624/pag10_01EC5HKWVBF54896Q2YB5EKBEV.1680x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/376624/pag11_01EC5HKZP62TGEBCZBDADADC47.1680x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/376624/pag12_01EC5HM56DF315PPK8E6J7A5SA.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/376624/pag13_01EC5HM9XM7BM7ZKFE2D5ARF8Q.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/376624/pag14_01EC5HMDFZM01KNV355XF7711B.1680x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/376624/pag15_01EC5HMH76V5TENPFW8SZEDV7D.1680x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/376624/pag16_01EC5HMQ2MWYHGDVZCNC4S3G9T.1024x0.jpg"
+          ]
         },
         {
           "titulo": "Capítulo 8",
