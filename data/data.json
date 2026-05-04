@@ -195,8 +195,22 @@
         },
         {
           "titulo": "Capítulo 8",
-          "portada": "https://example.com/cap8_portada.jpg",
-          "imagenes": ["https://example.com/cap8_pagina1.jpg", "https://example.com/cap8_pagina2.jpg"]
+          "portada": "https://ah-img.luscious.net/KOKOMIEL/385026/pagina0_01EK7HMYR8FDPFEK7BPTPN91Y1.1680x0.jpg",
+          "imagenes": [
+            "https://ah-img.luscious.net/KOKOMIEL/385026/pagina0_01EK7HMYR8FDPFEK7BPTPN91Y1.1680x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/385026/pagina1_01EK7HN8TW5GTCZCQ848SG7B3F.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/385026/pagina2_01EK7HNNS0NRVHZ00RW5Z3Z4SF.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/385026/pagina3_01EK7HP4HHAFM06GBVWSK8N6HD.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/385026/pagina4_01EK7HPCYRMNHS9B4JGBRN4Z0Q.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/385026/pagina5_01EK7HPVADWBA95YW7D6DXPC1D.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/385026/pagina6_01EK7HQD41PEEGYK1WNFT0WAJX.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/385026/pagina7_01EK7HQSAA0ET598SYF0V6MCE2.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/385026/pagina8_01EK7HR4F4G0D955HPF17KHSTK.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/385026/pagina9_01EK7HRHP2V8872HQ2J3DKGCBW.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/385026/pagina10_01EK7HS0FC26NQNPNBT0GBP81M.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/385026/pagina11_01EK7HS8VE8VG6Q2DV9ZX5MN3C.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/385026/pagina13_01EK7HSDM51GBY2ACAK1KTVRD6.1024x0.jpg"
+          ]
         },
         {
           "titulo": "Capítulo 9",
