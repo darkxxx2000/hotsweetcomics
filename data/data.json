@@ -271,8 +271,33 @@
         },
         {
           "titulo": "Capítulo 11",
-          "portada": "https://example.com/cap11_portada.jpg",
-          "imagenes": ["https://example.com/cap11_pagina1.jpg", "https://example.com/cap11_pagina2.jpg"]
+          "portada": "https://ah-img.luscious.net/KOKOMIEL/427932/0_01FG94PS3YKBB6WYW1VK66BW7D.640x0.jpg",
+          "imagenes": [
+            "https://ah-img.luscious.net/KOKOMIEL/427932/0_01FG94PS3YKBB6WYW1VK66BW7D.640x0.jpg", 
+            "https://ah-img.luscious.net/KOKOMIEL/427932/1_01FG94PVWJ868RNCQV8W4J0329.1680x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/427932/2_01FG94Q7ARG0MBJ4ZMV5ZQZG1H.640x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/427932/3_01FG94QJPCAAQNC48BAWQ025T8.640x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/427932/4_01FG94QRFWGXXBPVW0B9EF5XEA.640x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/427932/5_01FG94QWS8RXAZ1XDYCVTTZQBW.640x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/427932/6_01FG94R4BHW6262BP05AA2PP85.640x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/427932/7_01FG94RCPPGB5RS845099NQT02.640x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/427932/8_01FG94RK3YCX071F68GF04RFSR.640x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/427932/9_01FG94S0HJMYE7XACG2AE405HZ.640x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/427932/10_01FG94S9J7B9REA94CTS39MHC7.640x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/427932/11_01FG94SKJHA8G42JNEZJEPY6JE.640x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/427932/12a_01FG94SY18VSGC48Y0B6CHCVZP.640x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/427932/13v_01FG94T5EN4XGF55MH1AV59VKQ.640x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/427932/14rr_01FG94TCX2VCHRNKA2BV300CHR.640x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/427932/15hh_01FG94THYBB4SJ8XP0ZEXM4PKW.640x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/427932/16_01FG94TVVGQMNZFZ9RYXKQVV7N.640x0.jpg", 
+            "https://ah-img.luscious.net/KOKOMIEL/427932/17_01FG94V44W4AWVB5VW89K9R33P.640x0.jpg", 
+            "https://ah-img.luscious.net/KOKOMIEL/427932/18_01FG94VFTCGM4C8GAS1H272G0N.640x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/427932/19_01FG94VQK289SWGJH5CXHWXKBM.640x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/427932/20_01FG94VYA77CYJS41Y6HM3DZXW.640x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/427932/21b_01FG94W74MJA4WQVJ8AR3D24N5.640x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/427932/22f_01FG94WCK8AW0HTYD2RKJH1XR4.640x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/427932/23_01FG94WH2DQZCXACRA749YTV1K.640x0.jpg"
+          ]
         },
         {
           "titulo": "Capítulo 12",
