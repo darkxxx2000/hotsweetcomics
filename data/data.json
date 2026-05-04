@@ -355,9 +355,32 @@
           ]
         },
         {
-          "titulo": "Capítulo 2",
-          "portada": "https://ah-img.luscious.net/KOKOMIEL/370690/pagina-4.jpg",
-          "imagenes": ["https://ah-img.luscious.net/KOKOMIEL/370690/pagina-4.jpg", "https://ah-img.luscious.net/KOKOMIEL/370690/pagina-5.jpg"]
+          "titulo": "Jill Valentine vs Worm 2",
+          "portada": "https://ah-img.luscious.net/KOKOMIEL/359724/pag0-copia_01DW6FBH6V0PKA4DW3F98P8B2V.1024x0.jpg",
+          "imagenes": [
+            "https://ah-img.luscious.net/KOKOMIEL/359724/pag0-copia_01DW6FBH6V0PKA4DW3F98P8B2V.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/359724/pag1_01DW6FBPR692C4N3BHV2S1Y1SD.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/359724/pag2_01DW6FCCBNVGK4YWT04GFCKV1N.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/359724/pag3_01DW6FCKFQ04QAH8PETZ7QAD41.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/359724/pag4_01DW6FCSNM0N6018Q0P15ZAW6R.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/359724/pag5_01DW6FD0CQEN18RVHAQ45RN4BF.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/359724/pag6_01DW6FDC1Q8MWWW96MZ255CZNM.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/359724/pag7_01DW6FDJ6FP3NHGCJEH43M5ZZH.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/359724/pag8_01DW6FDSVY7DHV4C1R6J21WQY7.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/359724/pag9_01DW6FE0M0GKSBFY23TDJ8YVTD.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/359724/pag10_01DW6FE5VHK03K50Z10PY9X4Y3.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/359724/pag11_01DW6FECDEQ1KSPH304S9E6E5K.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/359724/pag12_01DW6FEK4J3RZ9VYNV0HKNP29C.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/359724/pag13_01DW6FENY3M4Q65PJTWR0PFNFS.1680x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/359724/pag14_01DW6FEWGX52F6S8F16G7M6579.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/359724/pag15_01DW6FF5AER8W7EKZ8R48SHF2D.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/359724/pag16_01DW6FFDZQPPN8YHGRSJWKRZV7.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/359724/pag17_01DW6FFKSYFD6XE1PPNMJ8VBJD.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/359724/pag18_01DW6FFV8NGZ35NNH9QPZ7ZWRA.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/359724/pag19_01DW6FG1QX3V1RPVR9WE25RP1S.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/359724/pag20_01DW6FG917B9CD0NB6NXQ6GKFF.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/359724/pag21_01DW6FGGA37B4TP2NC2XD6950R.1024x0.jpg"
+          ]
         },
         {
           "titulo": "Capítulo 12",
