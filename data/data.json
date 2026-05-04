@@ -214,8 +214,25 @@
         },
         {
           "titulo": "Capítulo 9",
-          "portada": "https://example.com/cap9_portada.jpg",
-          "imagenes": ["https://example.com/cap9_pagina1.jpg", "https://example.com/cap9_pagina2.jpg"]
+          "portada": "https://ah-img.luscious.net/KOKOMIEL/394845/0_01EV75D9ST3F6MXFVBSQ4PWJEQ.1024x0.jpg",
+          "imagenes": [
+            "https://ah-img.luscious.net/KOKOMIEL/394845/0_01EV75D9ST3F6MXFVBSQ4PWJEQ.1024x0.jpg", 
+            "https://ah-img.luscious.net/KOKOMIEL/394845/1_01EV75DTM050J39EG0P879BEKB.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/394845/2_01EV75F3GG07YMFX183RVRJJSM.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/394845/3_01EV75FWP9B8M4RYM5P7FRM78R.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/394845/4_01EV75GAHMMWKHN2Q5M9FB4VWT.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/394845/5_01EV75GXTVETN5WMKATWRXTQRX.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/394845/6_01EV75HHDQSJ47D2GBBG2HXJCW.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/394845/7_01EV75JDQXMJ594B67ZSTA822K.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/394845/8_01EV75KBF5WX6JZPDWFM4CPPS6.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/394845/9_01EV75KFTWYTS6S5078S3XM5V1.1680x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/394845/10_01EV75KRZHJR75XVJGF6VKMKRX.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/394845/11_01EV75MHC5ZRR9MFCYKS45EEXZ.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/394845/12_01EV75ND2GHTZP8R2KMJS1TKJN.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/394845/13_01EV75NPPMFMM3AKXAGCYPDET8.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/394845/14_01EV75P5P7VPXDM4XZYAJE2W3S.1024x0.jpg",
+            "https://ah-img.luscious.net/KOKOMIEL/394845/15_01EV75Q1N5WZ630K5FMY91MA4T.1024x0.jpg"
+          ]
         },
         {
           "titulo": "Capítulo 10",
