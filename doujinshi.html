@@ -94,7 +94,7 @@ nav a:hover{
 const params = new URLSearchParams(location.search);
 const serieID = params.get("serie");
 
-fetch("data/data.json?v=2") // ✅ CORREGIDO
+fetch("data/data.json") // ✅ CORREGIDO
 .then(res => res.json())
 .then(data => {
 
