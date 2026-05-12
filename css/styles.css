@@ -1,184 +1,674 @@
+# Proyecto Completo Optimizado — Lector de Comics/Webtoon
+
+## Estructura recomendada
+
+```plaintext
+/proyecto
+│
+├── index.html
+├── lector.html
+│
+├── /css
+│   └── styles.css
+│
+├── /js
+│   └── script.js
+│
+├── /data
+│   ├── data.json
+│   └── gallery.json
+│
+└── /libs
+    └── panzoom.min.js
+```
+
+---
+
+# data.json
+
+Tu estructura principal está bien.
+
+Mejor recomendada:
+
+```json
+{
+  "series": [
+    {
+      "id": "erika-comics",
+      "nombre": "Erika Comics",
+      "portada": "https://imagen.jpg",
+      "capitulos": [
+        {
+          "id": "cap-1",
+          "titulo": "Capítulo 1",
+          "portada": "https://imagen.jpg",
+          "imagenes": [
+            "https://img1.jpg",
+            "https://img2.jpg"
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+IMPORTANTE:
+
+* evitar IDs con espacios
+* usar IDs únicos
+* evitar capítulos duplicados
+
+---
+
+# gallery.json
+
+```json
+{
+  "imagenes": [
+    {
+      "url": "https://imagen1.jpg",
+      "titulo": "Galería 1"
+    },
+    {
+      "url": "https://imagen2.jpg",
+      "titulo": "Galería 2"
+    }
+  ]
+}
+```
+
+---
+
+# lector.html
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Lector</title>
+
+  <link rel="stylesheet" href="css/styles.css">
+
+</head>
+<body>
+
+<header>
+  <h1>Lector de Comics</h1>
+</header>
+
+<nav>
+  <a href="index.html">Inicio</a>
+</nav>
+
+<div id="thumbGrid" class="grid"></div>
+
+<!-- VIEWER -->
+<div id="viewer">
+
+  <span id="closeBtn">✕</span>
+
+  <div id="imgWrapper">
+    <img id="bigImg">
+  </div>
+
+</div>
+
+<script src="libs/panzoom.min.js"></script>
+<script src="js/script.js"></script>
+
+</body>
+</html>
+```
+
+---
+
+# script.js COMPLETO OPTIMIZADO
+
+```javascript
+const params = new URLSearchParams(location.search);
+
+const serieID = params.get("serie");
+const capIndex = Number(params.get("cap"));
+
+fetch("data/data.json")
+.then(res => res.json())
+.then(data => {
+
+  const serie = data.series.find(s => String(s.id) === String(serieID));
+
+  if (!serie) {
+    alert("Serie no encontrada");
+    return;
+  }
+
+  const cap = serie.capitulos[capIndex];
+
+  if (!cap) {
+    alert("Capítulo no encontrado");
+    return;
+  }
+
+  const images = cap.imagenes;
+
+  const grid = document.getElementById("thumbGrid");
+  const viewer = document.getElementById("viewer");
+  const bigImg = document.getElementById("bigImg");
+  const closeBtn = document.getElementById("closeBtn");
+  const imgWrapper = document.getElementById("imgWrapper");
+
+  let current = 0;
+  let pan;
+
+  // =========================
+  // CREAR MINIATURAS
+  // =========================
+
+  images.forEach((src, i) => {
+
+    const img = document.createElement("img");
+
+    img.src = src;
+
+    img.loading = "lazy";
+
+    img.onclick = () => {
+      current = i;
+      openViewer();
+    };
+
+    grid.appendChild(img);
+
+  });
+
+  // =========================
+  // ABRIR VISOR
+  // =========================
+
+  function openViewer() {
+
+    bigImg.src = images[current];
+
+    viewer.style.display = "flex";
+
+    if (pan) pan.destroy();
+
+    pan = Panzoom(bigImg, {
+      maxScale: 6,
+      minScale: 1,
+      contain: "outside"
+    });
+
+    preloadNext();
+
+  }
+
+  // =========================
+  // PRECARGA
+  // =========================
+
+  function preloadNext() {
+
+    if (current + 1 < images.length) {
+
+      const preload = new Image();
+      preload.src = images[current + 1];
+
+    }
+
+  }
+
+  // =========================
+  // WHEEL ZOOM
+  // =========================
+
+  imgWrapper.addEventListener("wheel", e => {
+
+    if (pan) {
+      pan.zoomWithWheel(e);
+    }
+
+  });
+
+  // =========================
+  // SIGUIENTE
+  // =========================
+
+  function next() {
+
+    if (current < images.length - 1) {
+
+      current++;
+      openViewer();
+
+    }
+
+  }
+
+  // =========================
+  // ANTERIOR
+  // =========================
+
+  function prev() {
+
+    if (current > 0) {
+
+      current--;
+      openViewer();
+
+    }
+
+  }
+
+  // =========================
+  // CLICK → SIGUIENTE
+  // =========================
+
+  bigImg.onclick = () => next();
+
+  // =========================
+  // TECLADO
+  // =========================
+
+  document.addEventListener("keydown", e => {
+
+    if (viewer.style.display === "flex") {
+
+      if (e.key === "ArrowRight") next();
+
+      if (e.key === "ArrowLeft") prev();
+
+      if (e.key === "Escape") closeViewer();
+
+    }
+
+  });
+
+  // =========================
+  // SWIPE MÓVIL
+  // =========================
+
+  let startX = 0;
+
+  viewer.addEventListener("touchstart", e => {
+
+    startX = e.touches[0].clientX;
+
+  });
+
+  viewer.addEventListener("touchend", e => {
+
+    let endX = e.changedTouches[0].clientX;
+
+    if (startX - endX > 50) next();
+
+    if (endX - startX > 50) prev();
+
+  });
+
+  // =========================
+  // CERRAR
+  // =========================
+
+  function closeViewer() {
+
+    viewer.style.display = "none";
+
+  }
+
+  closeBtn.onclick = closeViewer;
+
+});
+```
+
+---
+
+# styles.css COMPLETO OPTIMIZADO
+
+```css
 body {
   margin:0;
-  font-family: 'Poppins', Arial, sans-serif;
+  overflow-x:hidden;
 
-  /* 🔥 MISMO ESTILO PERO MÁS PROFUNDO */
+  font-family:'Poppins',Arial,sans-serif;
+
   background: linear-gradient(135deg,#0f0c1a,#1a1840,#12122a);
 
+  background-size:400% 400%;
+  animation:bgMove 15s ease infinite;
+
   color:#fff;
+}
+
+@keyframes bgMove{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+img{
+  max-width:100%;
+  display:block;
 }
 
 /* ================= HEADER ================= */
+
 header {
-  text-align: center;
-  padding: 10px 0;
+  text-align:center;
+  padding:10px 0;
 }
 
-/* ================= NAVBAR ================= */
+/* ================= NAV ================= */
+
 nav {
-  position: sticky;
+  position:sticky;
   top:0;
   z-index:1000;
 
-  background: rgba(20,20,40,0.95);
+  background:rgba(20,20,40,.95);
 
   padding:10px 0;
+
   text-align:center;
 
-  backdrop-filter: blur(8px);
+  backdrop-filter:blur(8px);
 
   box-shadow:
-    0 2px 10px rgba(0,0,0,0.6),
+    0 2px 10px rgba(0,0,0,.6),
     0 0 10px #000;
-
-  transition: background 0.3s, box-shadow 0.3s;
 }
 
 nav a {
+  display:inline-block;
+
   padding:10px 20px;
   margin:0 5px;
+
   border-radius:12px;
 
   text-decoration:none;
+
   color:#fff;
 
-  background: linear-gradient(45deg,#ff0080,#ff00cc);
+  background:linear-gradient(45deg,#ff0080,#ff00cc);
 
-  box-shadow: 0 0 10px #ff00cc55;
-
-  transition:0.3s;
+  transition:.3s;
 }
 
 nav a:hover {
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 0 15px #ff00cc;
+  transform:translateY(-2px) scale(1.05);
 }
 
 /* ================= GRID ================= */
+
 .grid {
   display:grid;
-  grid-template-columns: repeat(auto-fill,minmax(220px,1fr));
+
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+
   gap:30px;
+
   max-width:1200px;
+
   margin:20px auto;
+
   padding:0 15px;
 }
 
 /* ================= CARDS ================= */
-.card {
-  background: rgba(255,255,255,0.05);
+
+.grid img {
+
+  width:100%;
+
+  aspect-ratio:3/4;
+
+  object-fit:cover;
+
   border-radius:15px;
-  overflow:hidden;
+
   cursor:pointer;
-  text-align:center;
 
   border:2px solid #00ffff;
 
   box-shadow:
-    0 0 10px #00ffff55,
-    0 0 20px #ff00cc33,
-    inset 0 0 10px rgba(255,255,255,0.05);
+    0 0 8px #00ffff55,
+    0 0 12px #ff00cc22;
 
-  transition: all 0.3s ease;
+  transition:.3s ease;
+
+  will-change:transform;
+
 }
 
-/* 🔥 PORTADAS UNIFORMES */
-.card img {
-  width:100%;
-  height:320px;
-  object-fit:cover;
-}
+.grid img:hover {
 
-.card p {
-  margin:10px 0;
-  font-size:1.2rem;
-  font-weight:600;
-  color:#fff;
-}
+  transform:translateY(-5px) scale(1.03);
 
-.card:hover {
-  transform: translateY(-8px) scale(1.05);
-
-  box-shadow:
-    0 0 15px #00ffff,
-    0 0 25px #ff00cc,
-    0 10px 30px rgba(0,0,0,0.6);
 }
 
 /* ================= VIEWER ================= */
+
 #viewer {
+
   display:none;
+
   position:fixed;
+
   inset:0;
 
-  background: rgba(0,0,0,0.95);
+  width:100dvw;
+  height:100dvh;
 
-  backdrop-filter: blur(6px);
+  background:rgba(0,0,0,.95);
+
+  backdrop-filter:blur(6px);
 
   justify-content:center;
   align-items:center;
 
   z-index:2000;
+
+  touch-action:none;
+
+}
+
+#imgWrapper {
+
+  width:100%;
+  height:100%;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
 }
 
 #viewer img {
+
   max-width:90%;
   max-height:90%;
-  cursor: grab;
+
+  object-fit:contain;
 
   border-radius:12px;
 
-  transition: transform 0.2s ease;
+  user-select:none;
+  -webkit-user-drag:none;
+
+  cursor:grab;
 
   box-shadow:
-    0 0 20px rgba(0,0,0,0.8),
+    0 0 20px rgba(0,0,0,.8),
     0 0 40px #000;
+
 }
 
-/* BOTÓN CERRAR */
-#close {
+/* ================= BOTÓN CERRAR ================= */
+
+#closeBtn {
+
   position:absolute;
+
   top:20px;
   right:20px;
 
   font-size:2rem;
+
   cursor:pointer;
 
-  color:#fff;
+  z-index:5000;
 
-  transition:0.2s;
+  transition:.2s;
+
 }
 
-#close:hover {
-  transform: scale(1.2);
+#closeBtn:hover {
+
+  transform:scale(1.2);
+
 }
 
 /* ================= FOOTER ================= */
+
 footer {
+
   text-align:center;
+
   padding:15px 0;
-  color: rgba(255,255,255,0.7);
+
+  color:rgba(255,255,255,.7);
+
   margin-top:40px;
+
 }
+
+/* ================= SCROLLBAR ================= */
+
+::-webkit-scrollbar {
+  width:10px;
+}
+
+::-webkit-scrollbar-track {
+  background:#111;
+}
+
+::-webkit-scrollbar-thumb {
+  background:#00ffff;
+  border-radius:10px;
+}
+
+/* ================= WEBTOON BUTTON ================= */
+
 @keyframes glowWebtoon {
+
   0% {
-    box-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff;
-    transform: scale(1);
+    box-shadow:0 0 5px #00ffff,0 0 10px #00ffff;
+    transform:scale(1);
   }
+
   50% {
-    box-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff;
-    transform: scale(1.08);
+    box-shadow:0 0 15px #00ffff,0 0 30px #00ffff;
+    transform:scale(1.08);
   }
+
   100% {
-    box-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff;
-    transform: scale(1);
+    box-shadow:0 0 5px #00ffff,0 0 10px #00ffff;
+    transform:scale(1);
   }
+
 }
 
 #btnWebtoon {
-  background: linear-gradient(45deg,#00ffff,#00bfff);
+
+  background:linear-gradient(45deg,#00ffff,#00bfff);
+
   color:#000;
+
   font-weight:700;
-  animation: glowWebtoon 1.2s infinite;
-  text-shadow: 0 0 5px #fff, 0 0 10px #00ffff;
+
+  animation:glowWebtoon 1.2s infinite;
+
 }
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width:768px){
+
+  .grid {
+    grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+    gap:15px;
+  }
+
+  nav a {
+    padding:8px 12px;
+    font-size:.9rem;
+  }
+
+}
+```
+
+---
+
+# Resultado final
+
+Con esto ya tienes:
+
+* lector estilo webtoon
+* zoom funcional
+* swipe móvil
+* navegación teclado
+* miniaturas
+* lazy loading
+* precarga
+* diseño responsive
+* viewer fullscreen
+* efecto cyber/neon
+* mejor rendimiento
+* estructura profesional
+* soporte para cientos de imágenes
+
+---
+
+# Recomendación MUY IMPORTANTE
+
+No dependas siempre de imágenes hotlinkeadas de Luscious.
+
+Puede:
+
+* bloquear IPs
+* romper imágenes
+* limitar tráfico
+* impedir carga móvil
+
+Cuando el proyecto crezca conviene:
+
+* Cloudflare R2
+* BunnyCDN
+* Backblaze
+* Supabase Storage
+* AWS S3
+
+---
+
+# Próximo nivel recomendado
+
+Más adelante puedes agregar:
+
+* favoritos
+* historial de lectura
+* modo oscuro/claro
+* modo vertical webtoon
+* lectura automática
+* login
+* comentarios
+* búsqueda
+* categorías
+* infinite scroll
+* PWA/app móvil
+* compresión automática
+* cache offline
