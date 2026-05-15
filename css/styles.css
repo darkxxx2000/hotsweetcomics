@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
 body {
   margin: 0;
   font-family: 'Poppins', Arial, sans-serif;
@@ -293,16 +295,20 @@ footer {
     0 0 10px #00ffff;
 
 }
+
 /* =========================
    HOTSWEETCOMICS VISUAL UPGRADE
-   PEGAR AL FINAL DE TU CSS
 ========================= */
 
 /* Fondo general */
 body {
-    font-family: Arial, Helvetica, sans-serif;
+
+    font-family: 'Poppins', Arial, sans-serif;
+
     color: white;
+
     margin: 0;
+
     min-height: 100vh;
 
     background:
@@ -331,7 +337,9 @@ body {
 /* Barra superior */
 header,
 .navbar,
-.topbar {
+.topbar,
+nav {
+
     background: rgba(15, 15, 15, 0.88);
 
     backdrop-filter: blur(10px);
@@ -339,22 +347,30 @@ header,
     border-bottom: 1px solid rgba(255,255,255,0.08);
 
     position: sticky;
+
     top: 0;
+
     z-index: 999;
 }
 
 /* Links navbar */
 header a,
 .navbar a,
-.topbar a {
+.topbar a,
+nav a {
+
     color: white;
+
     text-decoration: none;
+
     transition: 0.3s;
 }
 
 header a:hover,
 .navbar a:hover,
-.topbar a:hover {
+.topbar a:hover,
+nav a:hover {
+
     color: #ff4fc3;
 
     text-shadow:
@@ -365,6 +381,7 @@ header a:hover,
 h1,
 h2,
 h3 {
+
     font-weight: 700;
 
     letter-spacing: 1px;
@@ -434,6 +451,7 @@ li {
 
 /* Botones */
 button {
+
     background: linear-gradient(
         90deg,
         #ff2f92,
